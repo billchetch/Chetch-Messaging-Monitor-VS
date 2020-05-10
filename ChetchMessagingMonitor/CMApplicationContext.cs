@@ -97,7 +97,7 @@ namespace ChetchMessagingMonitor
         {
             if (message.Type == Chetch.Messaging.MessageType.TRACE)
             {
-
+                CurrentDataSource.AddTraceData(message);
             }
             else
             {

@@ -15,7 +15,7 @@ namespace ChetchMessagingMonitor
     {
         CMApplicationContext appCtx;
         Chetch.Messaging.Message MessageSent = null;
-
+        Chetch.Messaging.Message ServerCommandSent = null;
 
         public MainForm(CMApplicationContext ctx)
         {
@@ -28,10 +28,12 @@ namespace ChetchMessagingMonitor
             {
                 cmbFilterMessageDirection.Items.Add(dir.ToString());
             }
-
+            
             listViewClients.ItemsSource = appCtx.CurrentDataSource.Clients;
             
             listViewMessages.ItemsSource = appCtx.CurrentDataSource.Messages;
+            listViewMessages.PrependItems = true;
+
             listViewMessages.AddFilter("Target|Sender", listViewClients);
             listViewMessages.AddFilter("Direction", cmbFilterMessageDirection, "All");
 
@@ -47,12 +49,21 @@ namespace ChetchMessagingMonitor
                 if (!mts.Contains(mt)) other.Add(mt);
             }
             listViewMessages.AddFilter("Type", cbMessageTypeOther, other);
-
             listViewMessages.SelectedIndexChanged += ShowMessageDetails;
-
             appCtx.CurrentDataSource.Messages.ListChanged += HandleMessage;
 
+            cmbSendType.SelectedIndex = 0;
+            
             listViewServerConnections.ItemsSource = appCtx.CurrentDataSource.ServerConnections;
+
+            foreach (Server.CommandName cmd in Enum.GetValues(typeof(Server.CommandName)))
+            {
+                if (cmd == Server.CommandName.NOT_SET) continue;
+                cmbServerCommands.Items.Add(cmd.ToString());
+            }
+            
+            //catch property changed events
+            appCtx.CurrentDataSource.PropertyChanged += HandlePropertyChanged;
         }
 
 
@@ -61,11 +72,27 @@ namespace ChetchMessagingMonitor
             MessageBox.Show(e.Message);
         }
 
+        private void HandlePropertyChanged(Object sender, PropertyChangedEventArgs e)
+        {
+            CMDataSource dataSource = (CMDataSource)sender;
+            switch (e.PropertyName)
+            {
+                case "ServerDetails":
+                    PopulateTextBox(tbServerDetails, dataSource.Get<String>(e.PropertyName));
+                    break;
+
+                case "TraceOutput":
+                    PopulateTextBox(tbTraceServerOutput, dataSource.Get<String>(e.PropertyName) + Environment.NewLine, dataSource.Trace.Count > 0);
+                    break;
+            }
+        }
+
         private void HandleMessage(Object sender, ListChangedEventArgs e)
         {
             switch (e.ListChangedType)
             {
                 case ListChangedType.ItemAdded:
+                    //showing response
                     IList<CMDataSource.MessageData> l = (IList<CMDataSource.MessageData>)sender;
                     var md = l[e.NewIndex];
                     if(MessageSent != null && md.Message.ResponseID == MessageSent.ID)
@@ -74,6 +101,13 @@ namespace ChetchMessagingMonitor
                         PopulateTextBox(tbMessageDetails, text);
                         MessageSent = null;
                     }
+                    if (ServerCommandSent != null && md.Message.ResponseID == ServerCommandSent.ID)
+                    {
+                        String text = md.Message.ToStringHeader() + Environment.NewLine + md.Message.ToStringValues(true);
+                        PopulateTextBox(tbServerCommandResponse, text);
+                        ServerCommandSent = null;
+                    }
+
                     break;
             }
         }
@@ -93,13 +127,20 @@ namespace ChetchMessagingMonitor
         }
 
         
-        private void PopulateTextBox(TextBox tb, String text)
+        private void PopulateTextBox(TextBox tb, String text, bool append = false)
         {
             if (tb.InvokeRequired)
             {
                 tb.Invoke((MethodInvoker)delegate ()
                 {
-                    tb.Text = text;
+                    if (append)
+                    {
+                        tb.AppendText(text);
+                    }
+                    else
+                    {
+                        tb.Text = text;
+                    }
                 });
             }
             else
@@ -195,8 +236,11 @@ namespace ChetchMessagingMonitor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //PopulateClients();
-            //PopulateMessages();
+            listViewClients.PopulateItems();
+            listViewMessages.PopulateItems();
+            listViewServerConnections.PopulateItems();
+
+            PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.Get<String>("ServerDetails"));
         }
 
         
@@ -208,6 +252,63 @@ namespace ChetchMessagingMonitor
         private void btnSendStatusRequest_Click(object sender, EventArgs e)
         {
             SendMessage("STATUS REQUEST");
+        }
+
+        private void cbTraceServerOutput_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = (CheckBox)sender;
+            if (cb.Checked)
+            {
+                //appCtx.CurrentDataSource.TraceOutput = "YEP tracing";
+                appCtx.CurrentDataSource.Trace.Clear();
+                appCtx.CurrentDataSource.TraceOutput = "";
+                appCtx.CurrentClient.StartTracingToClient();
+            } else
+            {
+                //appCtx.CurrentDataSource.TraceOutput = "YEP nnot tracing";
+                appCtx.CurrentClient.StopTracingToClient();
+            }
+        }
+
+        private void SendServerCommand()
+        {
+            try
+            {
+                var client = appCtx.CurrentClient;
+                if(cmbServerCommands.SelectedIndex == -1)
+                {
+                    throw new Exception("Please select a command");
+                }
+                var s = cmbServerCommands.SelectedItem;
+                Server.CommandName scmd = (Server.CommandName)Enum.Parse(typeof(Server.CommandName), s.ToString());
+                List<Object> args = new List<object>();
+                switch (scmd)
+                {
+                    case Server.CommandName.CLOSE_CONNECTION:
+                        if(listViewServerConnections.SelectedItems.Count > 0)
+                        {
+                            args.Add(listViewServerConnections.SelectedItems[0].Name);
+                        } else
+                        {
+                            throw new Exception("Please select a connection");
+                        }
+                        break;
+
+                    default:
+                        args = tbServerCommandLine.Text.Split(' ').ToList<Object>();
+                        break;
+                }
+                
+                ServerCommandSent = client.SendServerCommand(scmd, args);
+            } catch (Exception e)
+            {
+                HandleException(e);
+            }
+        }
+
+        private void btnSendServerCommand_Click(object sender, EventArgs e)
+        {
+            SendServerCommand();
         }
     }
 }

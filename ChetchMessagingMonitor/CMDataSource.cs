@@ -79,11 +79,41 @@ namespace ChetchMessagingMonitor
             public String ConnectionType { get { return Get<String>(); } set { Set(value); } }
             public String State { get { return Get<String>(); } set { Set(value); } }
             public String Extras { get { return Get<String>(); } set { Set(value); } }
+
+            public ServerConnectionData(String connectionType, String connectionDataString)
+            {
+                ConnectionType = connectionType;
+                ParseConnectionDataString(connectionDataString);
+            }
+
+            public void ParseConnectionDataString(String connectionDataString)
+            {
+                var parts = connectionDataString.Split(' ').ToList();
+                ID = parts[0];
+                Name = parts[1];
+                State = parts[2];
+                if (parts.Count > 3)
+                {
+                    Extras = String.Join(" ", parts.GetRange(3, parts.Count - 3).ToArray());
+                }
+            }
         }
 
+        public class TraceData : Chetch.Utilities.DataSourceObject
+        {
+            public String TraceMessage;
+            long Timestamp = DateTime.Now.Ticks;
 
-        public String ServerName { get; set; }
-        public String ServerID { get; set; }
+            public TraceData(String message)
+            {
+                TraceMessage = message;
+            }
+        }
+
+        public String ServerName { get { return Get<String>(); } set { Set(value); } }
+        public String ServerID { get { return Get<String>(); } set { Set(value); } }
+        public String ServerDetails { get { return Get<String>(); } set { Set(value); } }
+
         public int MaxConnections { get { return Get<int>(); } set { Set(value); } }
         public int ConnectionsCount { get { return Get<int>(); } set { Set(value); } }
         public int RemainingConnections { get { return Get<int>(); } set { Set(value); } }
@@ -91,6 +121,9 @@ namespace ChetchMessagingMonitor
         public BindingList<ClientData> Clients { get; }  = new BindingList<ClientData>();
         public BindingList<MessageData> Messages { get; } = new BindingList<MessageData>();
         public BindingList<ServerConnectionData> ServerConnections { get; } = new BindingList<ServerConnectionData>();
+        public BindingList<TraceData> Trace { get; } = new BindingList<TraceData>();
+        public String TraceOutput { get { return Get<String>(); } set { Set(value); } }
+
 
         public CMDataSource(String serverName)
         {
@@ -130,7 +163,8 @@ namespace ChetchMessagingMonitor
                 MaxConnections = message.GetInt("MaxConnections");
                 ConnectionsCount = message.GetInt("ConnectionsCount");
                 RemainingConnections = MaxConnections - ConnectionsCount;
-
+                ServerDetails = String.Format("{0}: {1} Connections made, {2} Remaining", ServerID, ConnectionsCount, RemainingConnections);
+                
                 AddServerConnectionData("PRIMARY", message.GetString("PrimaryConnection"));
                 foreach (var s in message.GetList<String>("SecondaryConnections"))
                 {
@@ -143,30 +177,47 @@ namespace ChetchMessagingMonitor
             }
         }
 
-        public void AddServerConnectionData(String connectionType, String connectionDataString)
-        {
-            var scd = new ServerConnectionData();
-            scd.ConnectionType = connectionType;
-            var parts = connectionDataString.Split(' ').ToList();
-            scd.ID = parts[0];
-            scd.Name = parts[1];
-            scd.State = parts[2];
-            if(parts.Count > 3)
-            {
-                scd.Extras = String.Join(" ", parts.GetRange(3, parts.Count - 3).ToArray());
-            }
-
-            System.Diagnostics.Debug.Print("Adding server connection " + scd.ID);
-            ServerConnections.Add(scd);
-        }
-        
         public MessageData GetMessageData(String ID)
         {
-            foreach(var md in Messages)
+            foreach (var md in Messages)
             {
                 if (md.ID == ID) return md;
             }
             return null;
+        }
+
+        public void AddServerConnectionData(String connectionType, String connectionDataString)
+        {
+            var scd = new ServerConnectionData(connectionType, connectionDataString);
+            
+            foreach(var cnd in ServerConnections)
+            {
+                if(cnd.ID == scd.ID)
+                {
+                    cnd.ParseConnectionDataString(connectionDataString);
+                    return;
+                }
+            }
+            
+            System.Diagnostics.Debug.Print("Adding server connection " + scd.ID);
+            ServerConnections.Add(scd);
+        }
+        
+        public void AddTraceData(Message message)
+        {
+            if(message.Type == MessageType.TRACE)
+            {
+                System.Diagnostics.Debug.Print("Adding trace " + message.Value);
+                var td = new TraceData(message.Value);
+                String traceOutput;
+                if (Trace.Count > MESSAGE_LOG_MAX)
+                {
+                    Trace.RemoveAt(0);
+                }
+                //assign here to notify properties
+                TraceOutput = td.TraceMessage;
+                Trace.Add(td);
+            }
         }
     }
 }
