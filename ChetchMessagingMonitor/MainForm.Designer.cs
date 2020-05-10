@@ -65,6 +65,7 @@
             this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbServerDetails = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
@@ -148,7 +149,7 @@
             // 
             this.chID.Tag = "ID";
             this.chID.Text = "ID";
-            this.chID.Width = 94;
+            this.chID.Width = 149;
             // 
             // chName
             // 
@@ -166,28 +167,32 @@
             // 
             this.chContext.Tag = "Context";
             this.chContext.Text = "Context";
-            this.chContext.Width = 98;
+            this.chContext.Width = 106;
             // 
             // chMessagesRecieved
             // 
             this.chMessagesRecieved.Tag = "MessagesReceived";
             this.chMessagesRecieved.Text = "Received";
             this.chMessagesRecieved.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.chMessagesRecieved.Width = 67;
             // 
             // chGarbageReceived
             // 
             this.chGarbageReceived.Tag = "GarbageReceived";
             this.chGarbageReceived.Text = "Garbage";
             this.chGarbageReceived.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.chGarbageReceived.Width = 65;
             // 
             // chMessagesSent
             // 
             this.chMessagesSent.Tag = "MessagesSent";
             this.chMessagesSent.Text = "Sent";
             this.chMessagesSent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.chMessagesSent.Width = 64;
             // 
             // tabServer
             // 
+            this.tabServer.Controls.Add(this.tbServerDetails);
             this.tabServer.Controls.Add(this.listViewServerConnections);
             this.tabServer.Location = new System.Drawing.Point(4, 22);
             this.tabServer.Name = "tabServer";
@@ -313,7 +318,7 @@
             // 
             this.mhSummary.Tag = "Summary";
             this.mhSummary.Text = "Summary";
-            this.mhSummary.Width = 333;
+            this.mhSummary.Width = 323;
             // 
             // tbMessageDetails
             // 
@@ -385,7 +390,7 @@
             this.listViewServerConnections.DataSourceObjectIDName = "ID";
             this.listViewServerConnections.FullRowSelect = true;
             this.listViewServerConnections.ItemsSource = null;
-            this.listViewServerConnections.Location = new System.Drawing.Point(4, 45);
+            this.listViewServerConnections.Location = new System.Drawing.Point(4, 34);
             this.listViewServerConnections.MultiSelect = false;
             this.listViewServerConnections.Name = "listViewServerConnections";
             this.listViewServerConnections.PrependItems = false;
@@ -398,31 +403,40 @@
             // 
             this.schID.Tag = "ID";
             this.schID.Text = "ID";
-            this.schID.Width = 106;
+            this.schID.Width = 101;
             // 
             // schType
             // 
             this.schType.Tag = "ConnectionType";
             this.schType.Text = "Type";
-            this.schType.Width = 90;
+            this.schType.Width = 97;
             // 
             // schName
             // 
             this.schName.Tag = "Name";
             this.schName.Text = "Name";
-            this.schName.Width = 98;
+            this.schName.Width = 122;
             // 
             // schState
             // 
             this.schState.Tag = "State";
             this.schState.Text = "State";
-            this.schState.Width = 100;
+            this.schState.Width = 108;
             // 
             // schExtras
             // 
             this.schExtras.Tag = "Extras";
             this.schExtras.Text = "Extras";
-            this.schExtras.Width = 447;
+            this.schExtras.Width = 412;
+            // 
+            // tbServerDetails
+            // 
+            this.tbServerDetails.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbServerDetails.Enabled = false;
+            this.tbServerDetails.Location = new System.Drawing.Point(4, 6);
+            this.tbServerDetails.Name = "tbServerDetails";
+            this.tbServerDetails.Size = new System.Drawing.Size(433, 13);
+            this.tbServerDetails.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -439,6 +453,7 @@
             this.gbMessageFilters.ResumeLayout(false);
             this.gbMessageFilters.PerformLayout();
             this.tabServer.ResumeLayout(false);
+            this.tabServer.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -482,6 +497,7 @@
         private System.Windows.Forms.ColumnHeader schName;
         private System.Windows.Forms.ColumnHeader schState;
         private System.Windows.Forms.ColumnHeader schExtras;
+        private System.Windows.Forms.TextBox tbServerDetails;
     }
 }
 
