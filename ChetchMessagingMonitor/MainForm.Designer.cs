@@ -72,6 +72,7 @@
             this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbMessageDetailsHeader = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
@@ -90,6 +91,7 @@
             // 
             // tabClients
             // 
+            this.tabClients.Controls.Add(this.tbMessageDetailsHeader);
             this.tabClients.Controls.Add(this.btnSendStatusRequest);
             this.tabClients.Controls.Add(this.btnSendPing);
             this.tabClients.Controls.Add(this.btnSend);
@@ -109,7 +111,7 @@
             // 
             // btnSendStatusRequest
             // 
-            this.btnSendStatusRequest.Location = new System.Drawing.Point(504, 488);
+            this.btnSendStatusRequest.Location = new System.Drawing.Point(101, 562);
             this.btnSendStatusRequest.Name = "btnSendStatusRequest";
             this.btnSendStatusRequest.Size = new System.Drawing.Size(91, 23);
             this.btnSendStatusRequest.TabIndex = 8;
@@ -119,7 +121,7 @@
             // 
             // btnSendPing
             // 
-            this.btnSendPing.Location = new System.Drawing.Point(504, 459);
+            this.btnSendPing.Location = new System.Drawing.Point(4, 562);
             this.btnSendPing.Name = "btnSendPing";
             this.btnSendPing.Size = new System.Drawing.Size(91, 23);
             this.btnSendPing.TabIndex = 7;
@@ -129,7 +131,7 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(783, 431);
+            this.btnSend.Location = new System.Drawing.Point(283, 534);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(86, 23);
             this.btnSend.TabIndex = 6;
@@ -139,7 +141,7 @@
             // 
             // tbCommandLine
             // 
-            this.tbCommandLine.Location = new System.Drawing.Point(601, 432);
+            this.tbCommandLine.Location = new System.Drawing.Point(101, 535);
             this.tbCommandLine.Name = "tbCommandLine";
             this.tbCommandLine.Size = new System.Drawing.Size(176, 20);
             this.tbCommandLine.TabIndex = 5;
@@ -151,19 +153,20 @@
             this.cmbSendType.Items.AddRange(new object[] {
             "Command",
             "Raw Text"});
-            this.cmbSendType.Location = new System.Drawing.Point(504, 432);
+            this.cmbSendType.Location = new System.Drawing.Point(4, 535);
             this.cmbSendType.Name = "cmbSendType";
             this.cmbSendType.Size = new System.Drawing.Size(91, 21);
             this.cmbSendType.TabIndex = 4;
+            this.cmbSendType.SelectedIndexChanged += new System.EventHandler(this.cmbSendType_SelectedIndexChanged);
             // 
             // tbMessageDetails
             // 
-            this.tbMessageDetails.Location = new System.Drawing.Point(3, 432);
+            this.tbMessageDetails.Location = new System.Drawing.Point(374, 422);
             this.tbMessageDetails.Multiline = true;
             this.tbMessageDetails.Name = "tbMessageDetails";
             this.tbMessageDetails.ReadOnly = true;
             this.tbMessageDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbMessageDetails.Size = new System.Drawing.Size(495, 154);
+            this.tbMessageDetails.Size = new System.Drawing.Size(495, 164);
             this.tbMessageDetails.TabIndex = 3;
             // 
             // listViewMessages
@@ -183,7 +186,7 @@
             this.listViewMessages.MultiSelect = false;
             this.listViewMessages.Name = "listViewMessages";
             this.listViewMessages.PrependItems = false;
-            this.listViewMessages.Size = new System.Drawing.Size(866, 228);
+            this.listViewMessages.Size = new System.Drawing.Size(866, 218);
             this.listViewMessages.TabIndex = 2;
             this.listViewMessages.UseCompatibleStateImageBehavior = false;
             this.listViewMessages.View = System.Windows.Forms.View.Details;
@@ -508,11 +511,21 @@
             this.schExtras.Text = "Extras";
             this.schExtras.Width = 412;
             // 
+            // tbMessageDetailsHeader
+            // 
+            this.tbMessageDetailsHeader.Location = new System.Drawing.Point(6, 423);
+            this.tbMessageDetailsHeader.Multiline = true;
+            this.tbMessageDetailsHeader.Name = "tbMessageDetailsHeader";
+            this.tbMessageDetailsHeader.ReadOnly = true;
+            this.tbMessageDetailsHeader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbMessageDetailsHeader.Size = new System.Drawing.Size(362, 108);
+            this.tbMessageDetailsHeader.TabIndex = 9;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(908, 643);
+            this.ClientSize = new System.Drawing.Size(908, 649);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
             this.Text = "Chetch Messaging Monitor";
@@ -574,6 +587,7 @@
         private System.Windows.Forms.Button btnSendServerCommand;
         private System.Windows.Forms.TextBox tbServerCommandLine;
         private System.Windows.Forms.TextBox tbServerCommandResponse;
+        private System.Windows.Forms.TextBox tbMessageDetailsHeader;
     }
 }
 

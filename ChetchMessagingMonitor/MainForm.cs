@@ -102,8 +102,7 @@ namespace ChetchMessagingMonitor
                     var md = l[e.NewIndex];
                     if(MessageSent != null && md.Message.ResponseID == MessageSent.ID)
                     {
-                        String text = md.Message.ToStringHeader() + Environment.NewLine + md.Message.ToStringValues(true);
-                        PopulateTextBox(tbMessageDetails, text);
+                        PopulateMessageDetails(md);
                         MessageSent = null;
                     }
                     if (ServerCommandSent != null && md.Message.ResponseID == ServerCommandSent.ID)
@@ -125,13 +124,17 @@ namespace ChetchMessagingMonitor
                 var md = appCtx.CurrentDataSource.GetMessageData(lv.SelectedItems[0].Name);
                 if(md != null)
                 {
-                    String text = md.Message.ToStringHeader() + Environment.NewLine + md.Message.ToStringValues(true);
-                    PopulateTextBox(tbMessageDetails, text);
+                    PopulateMessageDetails(md);
                 }
             }
         }
 
-        
+        private void PopulateMessageDetails(CMDataSource.MessageData md)
+        {
+            PopulateTextBox(tbMessageDetailsHeader, md.Message.ToStringHeader());
+            PopulateTextBox(tbMessageDetails, md.Message.ToStringValues(true));
+        }
+
         private void PopulateTextBox(TextBox tb, String text, bool append = false)
         {
             if (tb.InvokeRequired)
@@ -232,7 +235,8 @@ namespace ChetchMessagingMonitor
                         throw new Exception("Send type " + sendType + " not recognised");
                 }
 
-                tbMessageDetails.Text = "Sending:" + Environment.NewLine + MessageSent.ToString();
+                tbMessageDetails.Text = "Sending:" + Environment.NewLine + MessageSent.ToStringValues(true);
+                tbMessageDetailsHeader.Text = "Sending:" + Environment.NewLine + MessageSent.ToStringHeader();
             } catch (Exception e)
             {
                 HandleException(e);
@@ -315,6 +319,11 @@ namespace ChetchMessagingMonitor
         private void btnSendServerCommand_Click(object sender, EventArgs e)
         {
             SendServerCommand();
+        }
+
+        private void cmbSendType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
