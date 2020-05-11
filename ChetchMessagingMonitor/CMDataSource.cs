@@ -157,23 +157,82 @@ namespace ChetchMessagingMonitor
                 Messages.RemoveAt(MESSAGE_LOG_MAX);
             }
 
-            if(message.HasValue("ServerID") && message.Type == MessageType.STATUS_RESPONSE)
+            switch (message.Type)
             {
-                ServerID = message.GetString("ServerID");
-                MaxConnections = message.GetInt("MaxConnections");
-                ConnectionsCount = message.GetInt("ConnectionsCount");
-                RemainingConnections = MaxConnections - ConnectionsCount;
-                ServerDetails = String.Format("{0}: {1} Connections made, {2} Remaining", ServerID, ConnectionsCount, RemainingConnections);
-                
-                AddServerConnectionData("PRIMARY", message.GetString("PrimaryConnection"));
-                foreach (var s in message.GetList<String>("SecondaryConnections"))
-                {
-                    AddServerConnectionData("SECONDARY", s);
-                }
-                foreach (var s in message.GetList<String>("Connections"))
-                {
-                    AddServerConnectionData("CLIENT", s);
-                }
+                case MessageType.STATUS_RESPONSE:
+                    //distinguish the status response between status of a server or a connection
+                    if (message.HasValue("ServerID"))
+                    {
+                        //assign some general server properties
+                        ServerID = message.GetString("ServerID");
+                        MaxConnections = message.GetInt("MaxConnections");
+                        ConnectionsCount = message.GetInt("ConnectionsCount");
+                        RemainingConnections = MaxConnections - ConnectionsCount;
+                        ServerDetails = String.Format("{0}: {1} Connections made, {2} Remaining", ServerID, ConnectionsCount, RemainingConnections);
+
+                        //remove clients by first getting a list of all 'active' clients
+                        var clients = message.GetList<String>("Connections");
+                        List<String> clientNames = new List<String>();
+                        foreach (var cs in clients)
+                        {
+                            var data = cs.Split(' ');
+                            var clientName = data[1];
+                            if (clientName != null && clientName != String.Empty)
+                            {
+                                clientNames.Add(clientName);
+                            }
+                        }
+                        //and then removing any clients not on that list
+                        var clientsToRemove = new List<ClientData>();
+                        foreach(ClientData cd in Clients)
+                        {
+                            if (!clientNames.Contains(cd.Name))
+                            {
+                                clientsToRemove.Add(cd);
+                            }
+                        }
+                        foreach(ClientData cd in clientsToRemove)
+                        {
+                            System.Diagnostics.Debug.Print("Removing client " + cd.Name);
+                            Clients.Remove(cd);
+                        }
+
+                        //add/remove server connections
+                        List<String> scdIDs = new List<String>();
+                        ServerConnectionData scd;
+                        scd = AddServerConnectionData("PRIMARY", message.GetString("PrimaryConnection"));
+                        scdIDs.Add(scd.ID);
+                        foreach (var s in message.GetList<String>("SecondaryConnections"))
+                        {
+                            scd = AddServerConnectionData("SECONDARY", s);
+                            scdIDs.Add(scd.ID);
+                        }
+                        foreach (var s in message.GetList<String>("Connections"))
+                        {
+                            scd = AddServerConnectionData("CLIENT", s);
+                            scdIDs.Add(scd.ID);
+                        }
+
+                        //now we remove any dead connections
+                        List<ServerConnectionData> scToRemove = new List<ServerConnectionData>();
+                        foreach(ServerConnectionData sd in ServerConnections)
+                        {
+                            if (!scdIDs.Contains(sd.ID))
+                            {
+                                scToRemove.Add(sd);
+                            }
+                        }
+                        foreach(ServerConnectionData sd in scToRemove)
+                        {
+                            System.Diagnostics.Debug.Print("Removing server connection " + sd.ID);
+                            ServerConnections.Remove(sd);
+                        }
+                    }
+                    else if (message.HasValue("Context"))
+                    { 
+                        AddClientData(message);
+                    }
+                    break;
             }
         }
 
@@ -186,7 +245,7 @@ namespace ChetchMessagingMonitor
             return null;
         }
 
-        public void AddServerConnectionData(String connectionType, String connectionDataString)
+        public ServerConnectionData AddServerConnectionData(String connectionType, String connectionDataString)
         {
             var scd = new ServerConnectionData(connectionType, connectionDataString);
             
@@ -195,12 +254,13 @@ namespace ChetchMessagingMonitor
                 if(cnd.ID == scd.ID)
                 {
                     cnd.ParseConnectionDataString(connectionDataString);
-                    return;
+                    return cnd;
                 }
             }
             
             System.Diagnostics.Debug.Print("Adding server connection " + scd.ID);
             ServerConnections.Add(scd);
+            return scd;
         }
         
         public void AddTraceData(Message message)

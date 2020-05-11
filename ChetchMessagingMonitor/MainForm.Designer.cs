@@ -29,17 +29,6 @@
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabServer = new System.Windows.Forms.TabPage();
-            this.cmbServerCommands = new System.Windows.Forms.ComboBox();
-            this.cbTraceServerOutput = new System.Windows.Forms.CheckBox();
-            this.tbTraceServerOutput = new System.Windows.Forms.TextBox();
-            this.tbServerDetails = new System.Windows.Forms.TextBox();
-            this.listViewServerConnections = new ChetchMessagingMonitor.ChetchListView();
-            this.schID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.schType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabClients = new System.Windows.Forms.TabPage();
             this.btnSendStatusRequest = new System.Windows.Forms.Button();
             this.btnSendPing = new System.Windows.Forms.Button();
@@ -69,13 +58,24 @@
             this.chMessagesRecieved = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chGarbageReceived = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chMessagesSent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbServerCommandLine = new System.Windows.Forms.TextBox();
-            this.btnSendServerCommand = new System.Windows.Forms.Button();
+            this.tabServer = new System.Windows.Forms.TabPage();
             this.tbServerCommandResponse = new System.Windows.Forms.TextBox();
+            this.btnSendServerCommand = new System.Windows.Forms.Button();
+            this.tbServerCommandLine = new System.Windows.Forms.TextBox();
+            this.cmbServerCommands = new System.Windows.Forms.ComboBox();
+            this.cbTraceServerOutput = new System.Windows.Forms.CheckBox();
+            this.tbTraceServerOutput = new System.Windows.Forms.TextBox();
+            this.tbServerDetails = new System.Windows.Forms.TextBox();
+            this.listViewServerConnections = new ChetchMessagingMonitor.ChetchListView();
+            this.schID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.schType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
-            this.tabServer.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
+            this.tabServer.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -87,114 +87,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(883, 618);
             this.tabControl1.TabIndex = 0;
-            // 
-            // tabServer
-            // 
-            this.tabServer.Controls.Add(this.tbServerCommandResponse);
-            this.tabServer.Controls.Add(this.btnSendServerCommand);
-            this.tabServer.Controls.Add(this.tbServerCommandLine);
-            this.tabServer.Controls.Add(this.cmbServerCommands);
-            this.tabServer.Controls.Add(this.cbTraceServerOutput);
-            this.tabServer.Controls.Add(this.tbTraceServerOutput);
-            this.tabServer.Controls.Add(this.tbServerDetails);
-            this.tabServer.Controls.Add(this.listViewServerConnections);
-            this.tabServer.Location = new System.Drawing.Point(4, 22);
-            this.tabServer.Name = "tabServer";
-            this.tabServer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabServer.Size = new System.Drawing.Size(875, 592);
-            this.tabServer.TabIndex = 1;
-            this.tabServer.Text = "Server";
-            this.tabServer.UseVisualStyleBackColor = true;
-            // 
-            // cmbServerCommands
-            // 
-            this.cmbServerCommands.FormattingEnabled = true;
-            this.cmbServerCommands.Location = new System.Drawing.Point(7, 274);
-            this.cmbServerCommands.Name = "cmbServerCommands";
-            this.cmbServerCommands.Size = new System.Drawing.Size(121, 21);
-            this.cmbServerCommands.TabIndex = 4;
-            // 
-            // cbTraceServerOutput
-            // 
-            this.cbTraceServerOutput.AutoSize = true;
-            this.cbTraceServerOutput.Location = new System.Drawing.Point(7, 431);
-            this.cbTraceServerOutput.Name = "cbTraceServerOutput";
-            this.cbTraceServerOutput.Size = new System.Drawing.Size(54, 17);
-            this.cbTraceServerOutput.TabIndex = 3;
-            this.cbTraceServerOutput.Text = "Trace";
-            this.cbTraceServerOutput.UseVisualStyleBackColor = true;
-            this.cbTraceServerOutput.CheckedChanged += new System.EventHandler(this.cbTraceServerOutput_CheckedChanged);
-            // 
-            // tbTraceServerOutput
-            // 
-            this.tbTraceServerOutput.Location = new System.Drawing.Point(6, 454);
-            this.tbTraceServerOutput.Multiline = true;
-            this.tbTraceServerOutput.Name = "tbTraceServerOutput";
-            this.tbTraceServerOutput.ReadOnly = true;
-            this.tbTraceServerOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbTraceServerOutput.Size = new System.Drawing.Size(863, 129);
-            this.tbTraceServerOutput.TabIndex = 2;
-            // 
-            // tbServerDetails
-            // 
-            this.tbServerDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbServerDetails.Enabled = false;
-            this.tbServerDetails.Location = new System.Drawing.Point(4, 6);
-            this.tbServerDetails.Name = "tbServerDetails";
-            this.tbServerDetails.ReadOnly = true;
-            this.tbServerDetails.Size = new System.Drawing.Size(433, 20);
-            this.tbServerDetails.TabIndex = 1;
-            // 
-            // listViewServerConnections
-            // 
-            this.listViewServerConnections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.schID,
-            this.schType,
-            this.schName,
-            this.schState,
-            this.schExtras});
-            this.listViewServerConnections.DataSourceObjectIDName = "ID";
-            this.listViewServerConnections.FullRowSelect = true;
-            this.listViewServerConnections.HideSelection = false;
-            this.listViewServerConnections.ItemsSource = null;
-            this.listViewServerConnections.Location = new System.Drawing.Point(4, 34);
-            this.listViewServerConnections.MultiSelect = false;
-            this.listViewServerConnections.Name = "listViewServerConnections";
-            this.listViewServerConnections.PrependItems = false;
-            this.listViewServerConnections.Size = new System.Drawing.Size(865, 207);
-            this.listViewServerConnections.TabIndex = 0;
-            this.listViewServerConnections.UseCompatibleStateImageBehavior = false;
-            this.listViewServerConnections.View = System.Windows.Forms.View.Details;
-            // 
-            // schID
-            // 
-            this.schID.Tag = "ID";
-            this.schID.Text = "ID";
-            this.schID.Width = 101;
-            // 
-            // schType
-            // 
-            this.schType.Tag = "ConnectionType";
-            this.schType.Text = "Type";
-            this.schType.Width = 97;
-            // 
-            // schName
-            // 
-            this.schName.Tag = "Name";
-            this.schName.Text = "Name";
-            this.schName.Width = 122;
-            // 
-            // schState
-            // 
-            this.schState.Tag = "State";
-            this.schState.Text = "State";
-            this.schState.Width = 108;
-            // 
-            // schExtras
-            // 
-            this.schExtras.Tag = "Extras";
-            this.schExtras.Text = "Extras";
-            this.schExtras.Width = 412;
             // 
             // tabClients
             // 
@@ -385,8 +277,6 @@
             // cbMessageTypePing
             // 
             this.cbMessageTypePing.AutoSize = true;
-            this.cbMessageTypePing.Checked = true;
-            this.cbMessageTypePing.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMessageTypePing.Location = new System.Drawing.Point(221, 16);
             this.cbMessageTypePing.Name = "cbMessageTypePing";
             this.cbMessageTypePing.Size = new System.Drawing.Size(47, 17);
@@ -483,22 +373,23 @@
             this.chMessagesSent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.chMessagesSent.Width = 64;
             // 
-            // tbServerCommandLine
+            // tabServer
             // 
-            this.tbServerCommandLine.Location = new System.Drawing.Point(135, 274);
-            this.tbServerCommandLine.Name = "tbServerCommandLine";
-            this.tbServerCommandLine.Size = new System.Drawing.Size(183, 20);
-            this.tbServerCommandLine.TabIndex = 5;
-            // 
-            // btnSendServerCommand
-            // 
-            this.btnSendServerCommand.Location = new System.Drawing.Point(325, 274);
-            this.btnSendServerCommand.Name = "btnSendServerCommand";
-            this.btnSendServerCommand.Size = new System.Drawing.Size(75, 23);
-            this.btnSendServerCommand.TabIndex = 6;
-            this.btnSendServerCommand.Text = "Send";
-            this.btnSendServerCommand.UseVisualStyleBackColor = true;
-            this.btnSendServerCommand.Click += new System.EventHandler(this.btnSendServerCommand_Click);
+            this.tabServer.Controls.Add(this.tbServerCommandResponse);
+            this.tabServer.Controls.Add(this.btnSendServerCommand);
+            this.tabServer.Controls.Add(this.tbServerCommandLine);
+            this.tabServer.Controls.Add(this.cmbServerCommands);
+            this.tabServer.Controls.Add(this.cbTraceServerOutput);
+            this.tabServer.Controls.Add(this.tbTraceServerOutput);
+            this.tabServer.Controls.Add(this.tbServerDetails);
+            this.tabServer.Controls.Add(this.listViewServerConnections);
+            this.tabServer.Location = new System.Drawing.Point(4, 22);
+            this.tabServer.Name = "tabServer";
+            this.tabServer.Padding = new System.Windows.Forms.Padding(3);
+            this.tabServer.Size = new System.Drawing.Size(875, 592);
+            this.tabServer.TabIndex = 1;
+            this.tabServer.Text = "Server";
+            this.tabServer.UseVisualStyleBackColor = true;
             // 
             // tbServerCommandResponse
             // 
@@ -510,6 +401,113 @@
             this.tbServerCommandResponse.Size = new System.Drawing.Size(462, 140);
             this.tbServerCommandResponse.TabIndex = 7;
             // 
+            // btnSendServerCommand
+            // 
+            this.btnSendServerCommand.Location = new System.Drawing.Point(325, 274);
+            this.btnSendServerCommand.Name = "btnSendServerCommand";
+            this.btnSendServerCommand.Size = new System.Drawing.Size(75, 23);
+            this.btnSendServerCommand.TabIndex = 6;
+            this.btnSendServerCommand.Text = "Send";
+            this.btnSendServerCommand.UseVisualStyleBackColor = true;
+            this.btnSendServerCommand.Click += new System.EventHandler(this.btnSendServerCommand_Click);
+            // 
+            // tbServerCommandLine
+            // 
+            this.tbServerCommandLine.Location = new System.Drawing.Point(135, 274);
+            this.tbServerCommandLine.Name = "tbServerCommandLine";
+            this.tbServerCommandLine.Size = new System.Drawing.Size(183, 20);
+            this.tbServerCommandLine.TabIndex = 5;
+            // 
+            // cmbServerCommands
+            // 
+            this.cmbServerCommands.FormattingEnabled = true;
+            this.cmbServerCommands.Location = new System.Drawing.Point(7, 274);
+            this.cmbServerCommands.Name = "cmbServerCommands";
+            this.cmbServerCommands.Size = new System.Drawing.Size(121, 21);
+            this.cmbServerCommands.TabIndex = 4;
+            // 
+            // cbTraceServerOutput
+            // 
+            this.cbTraceServerOutput.AutoSize = true;
+            this.cbTraceServerOutput.Location = new System.Drawing.Point(7, 431);
+            this.cbTraceServerOutput.Name = "cbTraceServerOutput";
+            this.cbTraceServerOutput.Size = new System.Drawing.Size(54, 17);
+            this.cbTraceServerOutput.TabIndex = 3;
+            this.cbTraceServerOutput.Text = "Trace";
+            this.cbTraceServerOutput.UseVisualStyleBackColor = true;
+            this.cbTraceServerOutput.CheckedChanged += new System.EventHandler(this.cbTraceServerOutput_CheckedChanged);
+            // 
+            // tbTraceServerOutput
+            // 
+            this.tbTraceServerOutput.Location = new System.Drawing.Point(6, 454);
+            this.tbTraceServerOutput.Multiline = true;
+            this.tbTraceServerOutput.Name = "tbTraceServerOutput";
+            this.tbTraceServerOutput.ReadOnly = true;
+            this.tbTraceServerOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbTraceServerOutput.Size = new System.Drawing.Size(863, 129);
+            this.tbTraceServerOutput.TabIndex = 2;
+            // 
+            // tbServerDetails
+            // 
+            this.tbServerDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tbServerDetails.Enabled = false;
+            this.tbServerDetails.Location = new System.Drawing.Point(4, 6);
+            this.tbServerDetails.Name = "tbServerDetails";
+            this.tbServerDetails.ReadOnly = true;
+            this.tbServerDetails.Size = new System.Drawing.Size(433, 20);
+            this.tbServerDetails.TabIndex = 1;
+            // 
+            // listViewServerConnections
+            // 
+            this.listViewServerConnections.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.schID,
+            this.schType,
+            this.schName,
+            this.schState,
+            this.schExtras});
+            this.listViewServerConnections.DataSourceObjectIDName = "ID";
+            this.listViewServerConnections.FullRowSelect = true;
+            this.listViewServerConnections.HideSelection = false;
+            this.listViewServerConnections.ItemsSource = null;
+            this.listViewServerConnections.Location = new System.Drawing.Point(4, 34);
+            this.listViewServerConnections.MultiSelect = false;
+            this.listViewServerConnections.Name = "listViewServerConnections";
+            this.listViewServerConnections.PrependItems = false;
+            this.listViewServerConnections.Size = new System.Drawing.Size(865, 207);
+            this.listViewServerConnections.TabIndex = 0;
+            this.listViewServerConnections.UseCompatibleStateImageBehavior = false;
+            this.listViewServerConnections.View = System.Windows.Forms.View.Details;
+            // 
+            // schID
+            // 
+            this.schID.Tag = "ID";
+            this.schID.Text = "ID";
+            this.schID.Width = 101;
+            // 
+            // schType
+            // 
+            this.schType.Tag = "ConnectionType";
+            this.schType.Text = "Type";
+            this.schType.Width = 97;
+            // 
+            // schName
+            // 
+            this.schName.Tag = "Name";
+            this.schName.Text = "Name";
+            this.schName.Width = 122;
+            // 
+            // schState
+            // 
+            this.schState.Tag = "State";
+            this.schState.Text = "State";
+            this.schState.Width = 108;
+            // 
+            // schExtras
+            // 
+            this.schExtras.Tag = "Extras";
+            this.schExtras.Text = "Extras";
+            this.schExtras.Width = 412;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -520,12 +518,12 @@
             this.Text = "Chetch Messaging Monitor";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabServer.ResumeLayout(false);
-            this.tabServer.PerformLayout();
             this.tabClients.ResumeLayout(false);
             this.tabClients.PerformLayout();
             this.gbMessageFilters.ResumeLayout(false);
             this.gbMessageFilters.PerformLayout();
+            this.tabServer.ResumeLayout(false);
+            this.tabServer.PerformLayout();
             this.ResumeLayout(false);
 
         }

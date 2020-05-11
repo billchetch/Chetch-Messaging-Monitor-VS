@@ -10,14 +10,13 @@ using Chetch.Services;
 
 namespace ChetchMessagingMonitor
 {
-    public class CMApplicationContext //: SysTrayApplicationContext
+    public class CMApplicationContext : SysTrayApplicationContext
     {
         private TCPClientManager _clientMgr = new TCPClientManager();
         private String _currentServer = null;
         private Dictionary<String, ClientConnection> _clients = new Dictionary<String, ClientConnection>();
         private Dictionary<String, CMDataSource> _datasources = new Dictionary<String, CMDataSource>();
         private System.Timers.Timer _timer;
-
 
         public ClientConnection CurrentClient
         {
@@ -111,10 +110,14 @@ namespace ChetchMessagingMonitor
             LogMessage(CMDataSource.MessageDirection.INBOUND, message);
 
             switch (message.Type)
-            { 
+            {
+                case MessageType.SHUTDOWN:
+                    break;
+
                 case MessageType.STATUS_RESPONSE:
                     if (message.HasValue("ServerID"))
                     {
+                        //send status request to all connected clients
                         var clients = message.GetList<String>("Connections");
                         foreach(var cs in clients)
                         {
@@ -126,10 +129,6 @@ namespace ChetchMessagingMonitor
                             }
                         }
                     }
-                    else if(message.HasValue("Context"))
-                    {
-                        CurrentDataSource.AddClientData(message);
-                    }
                     break;
 
                 default:
@@ -138,7 +137,7 @@ namespace ChetchMessagingMonitor
         }
 
 
-        /*protected override Form CreateMainForm()
+        protected override Form CreateMainForm()
         {
             return new MainForm(this);
         }
@@ -151,6 +150,6 @@ namespace ChetchMessagingMonitor
 
             NotifyIcon.Text = "Chetch Messaging Monitor";
             NotifyIcon.Icon = Properties.Resources.icon_white;
-        }*/
+        }
     }
 }

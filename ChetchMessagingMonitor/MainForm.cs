@@ -23,18 +23,20 @@ namespace ChetchMessagingMonitor
 
             appCtx = ctx;
             
+            //CLIENTS TAB
+            //clients list view
+            listViewClients.ItemsSource = appCtx.CurrentDataSource.Clients;
+            
+            //messages list view
+            listViewMessages.ItemsSource = appCtx.CurrentDataSource.Messages;
+            listViewMessages.PrependItems = true;
+
+            listViewMessages.AddFilter("Target|Sender", listViewClients);
             cmbFilterMessageDirection.Items.Add("All");
             foreach (var dir in Enum.GetValues(typeof(CMDataSource.MessageDirection)))
             {
                 cmbFilterMessageDirection.Items.Add(dir.ToString());
             }
-            
-            listViewClients.ItemsSource = appCtx.CurrentDataSource.Clients;
-            
-            listViewMessages.ItemsSource = appCtx.CurrentDataSource.Messages;
-            listViewMessages.PrependItems = true;
-
-            listViewMessages.AddFilter("Target|Sender", listViewClients);
             listViewMessages.AddFilter("Direction", cmbFilterMessageDirection, "All");
 
             listViewMessages.AddFilter("Type", cbMessageTypeStatus, new Object[] { MessageType.STATUS_REQUEST, MessageType.STATUS_RESPONSE });
@@ -50,19 +52,22 @@ namespace ChetchMessagingMonitor
             }
             listViewMessages.AddFilter("Type", cbMessageTypeOther, other);
             listViewMessages.SelectedIndexChanged += ShowMessageDetails;
-            appCtx.CurrentDataSource.Messages.ListChanged += HandleMessage;
-
+            
             cmbSendType.SelectedIndex = 0;
             
-            listViewServerConnections.ItemsSource = appCtx.CurrentDataSource.ServerConnections;
 
+            //SERVER TAB
+            //server connections list view
+            listViewServerConnections.ItemsSource = appCtx.CurrentDataSource.ServerConnections;
+            
             foreach (Server.CommandName cmd in Enum.GetValues(typeof(Server.CommandName)))
             {
                 if (cmd == Server.CommandName.NOT_SET) continue;
                 cmbServerCommands.Items.Add(cmd.ToString());
             }
-            
-            //catch property changed events
+
+            //FORM catch data changes
+            appCtx.CurrentDataSource.Messages.ListChanged += HandleMessage;
             appCtx.CurrentDataSource.PropertyChanged += HandlePropertyChanged;
         }
 
@@ -241,6 +246,7 @@ namespace ChetchMessagingMonitor
             listViewServerConnections.PopulateItems();
 
             PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.Get<String>("ServerDetails"));
+            appCtx.CurrentClient.RequestServerStatus();
         }
 
         
