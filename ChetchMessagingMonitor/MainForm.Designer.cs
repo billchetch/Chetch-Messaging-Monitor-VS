@@ -109,7 +109,7 @@
             // 
             // btnSendStatusRequest
             // 
-            this.btnSendStatusRequest.Location = new System.Drawing.Point(504, 472);
+            this.btnSendStatusRequest.Location = new System.Drawing.Point(504, 488);
             this.btnSendStatusRequest.Name = "btnSendStatusRequest";
             this.btnSendStatusRequest.Size = new System.Drawing.Size(91, 23);
             this.btnSendStatusRequest.TabIndex = 8;
@@ -119,7 +119,7 @@
             // 
             // btnSendPing
             // 
-            this.btnSendPing.Location = new System.Drawing.Point(504, 443);
+            this.btnSendPing.Location = new System.Drawing.Point(504, 459);
             this.btnSendPing.Name = "btnSendPing";
             this.btnSendPing.Size = new System.Drawing.Size(91, 23);
             this.btnSendPing.TabIndex = 7;
@@ -129,7 +129,7 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(783, 415);
+            this.btnSend.Location = new System.Drawing.Point(783, 431);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(86, 23);
             this.btnSend.TabIndex = 6;
@@ -139,7 +139,7 @@
             // 
             // tbCommandLine
             // 
-            this.tbCommandLine.Location = new System.Drawing.Point(601, 416);
+            this.tbCommandLine.Location = new System.Drawing.Point(601, 432);
             this.tbCommandLine.Name = "tbCommandLine";
             this.tbCommandLine.Size = new System.Drawing.Size(176, 20);
             this.tbCommandLine.TabIndex = 5;
@@ -151,19 +151,19 @@
             this.cmbSendType.Items.AddRange(new object[] {
             "Command",
             "Raw Text"});
-            this.cmbSendType.Location = new System.Drawing.Point(504, 416);
+            this.cmbSendType.Location = new System.Drawing.Point(504, 432);
             this.cmbSendType.Name = "cmbSendType";
             this.cmbSendType.Size = new System.Drawing.Size(91, 21);
             this.cmbSendType.TabIndex = 4;
             // 
             // tbMessageDetails
             // 
-            this.tbMessageDetails.Location = new System.Drawing.Point(3, 417);
+            this.tbMessageDetails.Location = new System.Drawing.Point(3, 432);
             this.tbMessageDetails.Multiline = true;
             this.tbMessageDetails.Name = "tbMessageDetails";
             this.tbMessageDetails.ReadOnly = true;
             this.tbMessageDetails.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbMessageDetails.Size = new System.Drawing.Size(495, 169);
+            this.tbMessageDetails.Size = new System.Drawing.Size(495, 154);
             this.tbMessageDetails.TabIndex = 3;
             // 
             // listViewMessages
@@ -179,11 +179,11 @@
             this.listViewMessages.FullRowSelect = true;
             this.listViewMessages.HideSelection = false;
             this.listViewMessages.ItemsSource = null;
-            this.listViewMessages.Location = new System.Drawing.Point(3, 240);
+            this.listViewMessages.Location = new System.Drawing.Point(3, 198);
             this.listViewMessages.MultiSelect = false;
             this.listViewMessages.Name = "listViewMessages";
             this.listViewMessages.PrependItems = false;
-            this.listViewMessages.Size = new System.Drawing.Size(866, 170);
+            this.listViewMessages.Size = new System.Drawing.Size(866, 228);
             this.listViewMessages.TabIndex = 2;
             this.listViewMessages.UseCompatibleStateImageBehavior = false;
             this.listViewMessages.View = System.Windows.Forms.View.Details;
@@ -232,7 +232,7 @@
             this.gbMessageFilters.Controls.Add(this.cbMessageTypePing);
             this.gbMessageFilters.Controls.Add(this.cbMessageTypeStatus);
             this.gbMessageFilters.Controls.Add(this.cmbFilterMessageDirection);
-            this.gbMessageFilters.Location = new System.Drawing.Point(3, 191);
+            this.gbMessageFilters.Location = new System.Drawing.Point(3, 151);
             this.gbMessageFilters.Name = "gbMessageFilters";
             this.gbMessageFilters.Size = new System.Drawing.Size(866, 42);
             this.gbMessageFilters.TabIndex = 1;
@@ -243,7 +243,7 @@
             this.cbMessageTypeOther.AutoSize = true;
             this.cbMessageTypeOther.Checked = true;
             this.cbMessageTypeOther.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMessageTypeOther.Location = new System.Drawing.Point(419, 16);
+            this.cbMessageTypeOther.Location = new System.Drawing.Point(419, 17);
             this.cbMessageTypeOther.Name = "cbMessageTypeOther";
             this.cbMessageTypeOther.Size = new System.Drawing.Size(52, 17);
             this.cbMessageTypeOther.TabIndex = 5;
@@ -255,7 +255,7 @@
             this.cbMessageTypeError.AutoSize = true;
             this.cbMessageTypeError.Checked = true;
             this.cbMessageTypeError.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMessageTypeError.Location = new System.Drawing.Point(362, 16);
+            this.cbMessageTypeError.Location = new System.Drawing.Point(362, 17);
             this.cbMessageTypeError.Name = "cbMessageTypeError";
             this.cbMessageTypeError.Size = new System.Drawing.Size(48, 17);
             this.cbMessageTypeError.TabIndex = 4;
@@ -267,7 +267,7 @@
             this.cbMessageTypeCommand.AutoSize = true;
             this.cbMessageTypeCommand.Checked = true;
             this.cbMessageTypeCommand.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMessageTypeCommand.Location = new System.Drawing.Point(276, 16);
+            this.cbMessageTypeCommand.Location = new System.Drawing.Point(276, 17);
             this.cbMessageTypeCommand.Name = "cbMessageTypeCommand";
             this.cbMessageTypeCommand.Size = new System.Drawing.Size(73, 17);
             this.cbMessageTypeCommand.TabIndex = 3;
@@ -277,7 +277,7 @@
             // cbMessageTypePing
             // 
             this.cbMessageTypePing.AutoSize = true;
-            this.cbMessageTypePing.Location = new System.Drawing.Point(221, 16);
+            this.cbMessageTypePing.Location = new System.Drawing.Point(221, 17);
             this.cbMessageTypePing.Name = "cbMessageTypePing";
             this.cbMessageTypePing.Size = new System.Drawing.Size(47, 17);
             this.cbMessageTypePing.TabIndex = 2;
@@ -289,7 +289,7 @@
             this.cbMessageTypeStatus.AutoSize = true;
             this.cbMessageTypeStatus.Checked = true;
             this.cbMessageTypeStatus.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbMessageTypeStatus.Location = new System.Drawing.Point(157, 16);
+            this.cbMessageTypeStatus.Location = new System.Drawing.Point(157, 17);
             this.cbMessageTypeStatus.Name = "cbMessageTypeStatus";
             this.cbMessageTypeStatus.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.cbMessageTypeStatus.Size = new System.Drawing.Size(56, 17);
@@ -300,7 +300,7 @@
             // cmbFilterMessageDirection
             // 
             this.cmbFilterMessageDirection.FormattingEnabled = true;
-            this.cmbFilterMessageDirection.Location = new System.Drawing.Point(7, 13);
+            this.cmbFilterMessageDirection.Location = new System.Drawing.Point(7, 14);
             this.cmbFilterMessageDirection.Name = "cmbFilterMessageDirection";
             this.cmbFilterMessageDirection.Size = new System.Drawing.Size(121, 21);
             this.cmbFilterMessageDirection.TabIndex = 0;
@@ -323,7 +323,7 @@
             this.listViewClients.MultiSelect = false;
             this.listViewClients.Name = "listViewClients";
             this.listViewClients.PrependItems = false;
-            this.listViewClients.Size = new System.Drawing.Size(866, 177);
+            this.listViewClients.Size = new System.Drawing.Size(866, 143);
             this.listViewClients.TabIndex = 0;
             this.listViewClients.UseCompatibleStateImageBehavior = false;
             this.listViewClients.View = System.Windows.Forms.View.Details;
