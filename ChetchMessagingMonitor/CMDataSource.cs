@@ -110,7 +110,7 @@ namespace ChetchMessagingMonitor
             }
         }
 
-        public String ServerName { get { return Get<String>(); } set { Set(value); } }
+        public String ServerConnectionString { get { return Get<String>(); } set { Set(value); } }
         public String ServerID { get { return Get<String>(); } set { Set(value); } }
         public String ServerDetails { get { return Get<String>(); } set { Set(value); } }
 
@@ -125,10 +125,10 @@ namespace ChetchMessagingMonitor
         public String TraceOutput { get { return Get<String>(); } set { Set(value); } }
 
 
-        public CMDataSource(String serverName)
+        public CMDataSource(String serverConnectionString)
         {
-            ServerName = serverName;
-            System.Diagnostics.Debug.Print("CMDataSource constructor called for " + ServerName);
+            ServerConnectionString = serverConnectionString;
+            System.Diagnostics.Debug.Print("CMDataSource constructor called for " + ServerConnectionString);
         }
 
         public void AddClientData(Message message)
@@ -168,7 +168,7 @@ namespace ChetchMessagingMonitor
                         MaxConnections = message.GetInt("MaxConnections");
                         ConnectionsCount = message.GetInt("ConnectionsCount");
                         RemainingConnections = MaxConnections - ConnectionsCount;
-                        ServerDetails = String.Format("{0}: {1} Connections made, {2} Remaining", ServerID, ConnectionsCount, RemainingConnections);
+                        ServerDetails = String.Format("{0} @ {1}: {2} Connections made, {3} Remaining", ServerID, ServerConnectionString, ConnectionsCount, RemainingConnections);
 
                         //remove clients by first getting a list of all 'active' clients
                         var clients = message.GetList<String>("Connections");

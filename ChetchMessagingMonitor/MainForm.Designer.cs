@@ -30,6 +30,7 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabClients = new System.Windows.Forms.TabPage();
+            this.tbMessageDetailsHeader = new System.Windows.Forms.TextBox();
             this.btnSendStatusRequest = new System.Windows.Forms.Button();
             this.btnSendPing = new System.Windows.Forms.Button();
             this.btnSend = new System.Windows.Forms.Button();
@@ -59,6 +60,8 @@
             this.chGarbageReceived = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chMessagesSent = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabServer = new System.Windows.Forms.TabPage();
+            this.cmbServerConnection = new System.Windows.Forms.ComboBox();
+            this.btnConnect2Server = new System.Windows.Forms.Button();
             this.tbServerCommandResponse = new System.Windows.Forms.TextBox();
             this.btnSendServerCommand = new System.Windows.Forms.Button();
             this.tbServerCommandLine = new System.Windows.Forms.TextBox();
@@ -72,7 +75,7 @@
             this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbMessageDetailsHeader = new System.Windows.Forms.TextBox();
+            this.btnClearMessages = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
@@ -88,6 +91,7 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(883, 618);
             this.tabControl1.TabIndex = 0;
+            this.tabControl1.Selected += new System.Windows.Forms.TabControlEventHandler(this.tabControl1_Selected);
             // 
             // tabClients
             // 
@@ -108,6 +112,16 @@
             this.tabClients.TabIndex = 0;
             this.tabClients.Text = "Clients";
             this.tabClients.UseVisualStyleBackColor = true;
+            // 
+            // tbMessageDetailsHeader
+            // 
+            this.tbMessageDetailsHeader.Location = new System.Drawing.Point(6, 423);
+            this.tbMessageDetailsHeader.Multiline = true;
+            this.tbMessageDetailsHeader.Name = "tbMessageDetailsHeader";
+            this.tbMessageDetailsHeader.ReadOnly = true;
+            this.tbMessageDetailsHeader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbMessageDetailsHeader.Size = new System.Drawing.Size(362, 108);
+            this.tbMessageDetailsHeader.TabIndex = 9;
             // 
             // btnSendStatusRequest
             // 
@@ -229,6 +243,7 @@
             // 
             // gbMessageFilters
             // 
+            this.gbMessageFilters.Controls.Add(this.btnClearMessages);
             this.gbMessageFilters.Controls.Add(this.cbMessageTypeOther);
             this.gbMessageFilters.Controls.Add(this.cbMessageTypeError);
             this.gbMessageFilters.Controls.Add(this.cbMessageTypeCommand);
@@ -378,6 +393,8 @@
             // 
             // tabServer
             // 
+            this.tabServer.Controls.Add(this.cmbServerConnection);
+            this.tabServer.Controls.Add(this.btnConnect2Server);
             this.tabServer.Controls.Add(this.tbServerCommandResponse);
             this.tabServer.Controls.Add(this.btnSendServerCommand);
             this.tabServer.Controls.Add(this.tbServerCommandLine);
@@ -393,6 +410,24 @@
             this.tabServer.TabIndex = 1;
             this.tabServer.Text = "Server";
             this.tabServer.UseVisualStyleBackColor = true;
+            // 
+            // cmbServerConnection
+            // 
+            this.cmbServerConnection.FormattingEnabled = true;
+            this.cmbServerConnection.Location = new System.Drawing.Point(644, 7);
+            this.cmbServerConnection.Name = "cmbServerConnection";
+            this.cmbServerConnection.Size = new System.Drawing.Size(145, 21);
+            this.cmbServerConnection.TabIndex = 10;
+            // 
+            // btnConnect2Server
+            // 
+            this.btnConnect2Server.Location = new System.Drawing.Point(794, 6);
+            this.btnConnect2Server.Name = "btnConnect2Server";
+            this.btnConnect2Server.Size = new System.Drawing.Size(75, 23);
+            this.btnConnect2Server.TabIndex = 8;
+            this.btnConnect2Server.Text = "Connect";
+            this.btnConnect2Server.UseVisualStyleBackColor = true;
+            this.btnConnect2Server.Click += new System.EventHandler(this.btnConnectServer_Click);
             // 
             // tbServerCommandResponse
             // 
@@ -453,11 +488,10 @@
             // tbServerDetails
             // 
             this.tbServerDetails.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tbServerDetails.Enabled = false;
-            this.tbServerDetails.Location = new System.Drawing.Point(4, 6);
+            this.tbServerDetails.Location = new System.Drawing.Point(5, 8);
             this.tbServerDetails.Name = "tbServerDetails";
             this.tbServerDetails.ReadOnly = true;
-            this.tbServerDetails.Size = new System.Drawing.Size(433, 20);
+            this.tbServerDetails.Size = new System.Drawing.Size(530, 20);
             this.tbServerDetails.TabIndex = 1;
             // 
             // listViewServerConnections
@@ -511,15 +545,15 @@
             this.schExtras.Text = "Extras";
             this.schExtras.Width = 412;
             // 
-            // tbMessageDetailsHeader
+            // btnClearMessages
             // 
-            this.tbMessageDetailsHeader.Location = new System.Drawing.Point(6, 423);
-            this.tbMessageDetailsHeader.Multiline = true;
-            this.tbMessageDetailsHeader.Name = "tbMessageDetailsHeader";
-            this.tbMessageDetailsHeader.ReadOnly = true;
-            this.tbMessageDetailsHeader.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbMessageDetailsHeader.Size = new System.Drawing.Size(362, 108);
-            this.tbMessageDetailsHeader.TabIndex = 9;
+            this.btnClearMessages.Location = new System.Drawing.Point(785, 11);
+            this.btnClearMessages.Name = "btnClearMessages";
+            this.btnClearMessages.Size = new System.Drawing.Size(75, 23);
+            this.btnClearMessages.TabIndex = 6;
+            this.btnClearMessages.Text = "Clear";
+            this.btnClearMessages.UseVisualStyleBackColor = true;
+            this.btnClearMessages.Click += new System.EventHandler(this.btnClearMessages_Click);
             // 
             // MainForm
             // 
@@ -588,6 +622,9 @@
         private System.Windows.Forms.TextBox tbServerCommandLine;
         private System.Windows.Forms.TextBox tbServerCommandResponse;
         private System.Windows.Forms.TextBox tbMessageDetailsHeader;
+        private System.Windows.Forms.Button btnConnect2Server;
+        private System.Windows.Forms.ComboBox cmbServerConnection;
+        private System.Windows.Forms.Button btnClearMessages;
     }
 }
 

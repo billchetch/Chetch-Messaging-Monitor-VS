@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Chetch.Application;
 using Chetch.Messaging;
@@ -16,6 +17,7 @@ namespace ChetchMessagingMonitor
         private String _currentServer = null;
         private Dictionary<String, ClientConnection> _clients = new Dictionary<String, ClientConnection>();
         private Dictionary<String, CMDataSource> _datasources = new Dictionary<String, CMDataSource>();
+        public BindingList<String> ServerConnectionStrings { get; } = new BindingList<String>();
         private System.Timers.Timer _timer;
 
         public ClientConnection CurrentClient
@@ -53,28 +55,41 @@ namespace ChetchMessagingMonitor
                 _datasources[_currentServer] = new CMDataSource(_currentServer);
 
                 client.RequestServerStatus();
+
+                ServerConnectionStrings.Add(_currentServer);
+            } else
+            {
+                _clients[_currentServer].RequestServerStatus();
             }
         }
 
-
-        public void Init()
+        public void CloseClients()
         {
-            bool startTimer = false;
+            foreach(var client in _clients.Values)
+            {
+                client.Close();
+            }
+        }
+
+        public void Init(String serverConnection = null)
+        {
+            _currentServer = serverConnection;
+            
+            if (_timer != null) _timer.Stop();
+
             if (_currentServer == null)
             {
-                _currentServer = "default";
-                _clientMgr.AddServer(_currentServer, TCPServer.LocalCS(TCPMessagingServer.CONNECTION_REQUEST_PORT));
-                startTimer = true;
+                _currentServer = TCPServer.LocalCS(TCPMessagingServer.CONNECTION_REQUEST_PORT);
             }
             ConnectClient();
-            if (startTimer)
+            if (_timer == null)
             {
-                _timer = new System.Timers.Timer(60000);
+                _timer = new System.Timers.Timer(60 * 1000 * 30);
                 // Hook up the Elapsed event for the timer. 
                 _timer.Elapsed += OnTimedEvent;
                 _timer.AutoReset = true;
-                _timer.Start();
             }
+            _timer.Start();
         }
 
         public void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
@@ -96,11 +111,11 @@ namespace ChetchMessagingMonitor
         {
             if (message.Type == Chetch.Messaging.MessageType.TRACE)
             {
-                CurrentDataSource.AddTraceData(message);
+                CurrentDataSource?.AddTraceData(message);
             }
             else
             {
-                CurrentDataSource.AddMessageData(direction, message);
+                CurrentDataSource?.AddMessageData(direction, message);
             }
         }
 

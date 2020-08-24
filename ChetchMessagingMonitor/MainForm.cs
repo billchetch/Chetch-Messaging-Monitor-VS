@@ -54,9 +54,12 @@ namespace ChetchMessagingMonitor
             listViewMessages.SelectedIndexChanged += ShowMessageDetails;
             
             cmbSendType.SelectedIndex = 0;
-            
+
 
             //SERVER TAB
+            //connection strings to different servers
+            cmbServerConnection.DataSource = appCtx.ServerConnectionStrings;
+
             //server connections list view
             listViewServerConnections.ItemsSource = appCtx.CurrentDataSource.ServerConnections;
             
@@ -249,7 +252,7 @@ namespace ChetchMessagingMonitor
             listViewMessages.PopulateItems();
             listViewServerConnections.PopulateItems();
 
-            PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.Get<String>("ServerDetails"));
+            PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.ServerDetails);
             appCtx.CurrentClient.RequestServerStatus();
         }
 
@@ -324,6 +327,70 @@ namespace ChetchMessagingMonitor
         private void cmbSendType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void tabControl1_Selected(object sender, TabControlEventArgs e)
+        {
+            switch (e.TabPage.Name)
+            {
+                case "tabClients":
+                    listViewClients.PopulateItems();
+                    listViewMessages.PopulateItems();
+                    break;
+
+                case "tabServer":
+                    listViewServerConnections.PopulateItems();
+                    break;
+            }
+        }
+
+        private void btnConnectServer_Click(object sender, EventArgs e)
+        {
+            listViewServerConnections.ClearItems(true);
+            listViewClients.ClearItems(true);
+            listViewMessages.ClearItems(true);
+            appCtx.CurrentDataSource.Messages.ListChanged -= HandleMessage;
+            appCtx.CurrentDataSource.PropertyChanged -= HandlePropertyChanged;
+
+            try
+            {
+                String cnnString = cmbServerConnection.Text;
+                if (cnnString == null || cnnString == String.Empty) throw new Exception("Please supply a connection string");
+                appCtx.Init(cnnString);
+                MessageBox.Show("Connection to " + cnnString + " successful.");
+
+                //server connections listview
+                listViewServerConnections.ItemsSource = appCtx.CurrentDataSource.ServerConnections;
+                listViewServerConnections.PopulateItems();
+
+                //client connections list view
+                listViewClients.ItemsSource = appCtx.CurrentDataSource.Clients;
+                listViewClients.PopulateItems();
+
+                //messages list view
+                listViewMessages.ItemsSource = appCtx.CurrentDataSource.Messages;
+                listViewMessages.PopulateItems();
+
+                //because data source has changed we must update event handlers to catch incoming messages
+                appCtx.CurrentDataSource.Messages.ListChanged += HandleMessage;
+                appCtx.CurrentDataSource.PropertyChanged += HandlePropertyChanged;
+
+                //updates server connection strings list
+                cmbServerConnection.DataSource = null;
+                cmbServerConnection.DataSource = appCtx.ServerConnectionStrings;
+
+                //show new server connection in text box
+                PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.ServerDetails);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnClearMessages_Click(object sender, EventArgs e)
+        {
+            listViewMessages.ClearItems(true);
         }
     }
 }

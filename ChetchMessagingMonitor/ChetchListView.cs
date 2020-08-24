@@ -147,6 +147,10 @@ namespace ChetchMessagingMonitor
 
             set
             {
+                if(_itemsSource != null)
+                {
+                    _itemsSource.ListChanged -= HandleItemsSourceChanged;
+                }
                 _itemsSource = value;
                 if (_itemsSource != null)
                 {
@@ -293,6 +297,21 @@ namespace ChetchMessagingMonitor
         protected String GetID(DataSourceObject data)
         {
             return data.Get<String>(DataSourceObjectIDName);
+        }
+
+        public void ClearItems(bool clearItemsSource = false)
+        {
+            if (clearItemsSource)
+            {
+                IBindingList temp = ItemsSource;
+                ItemsSource = null;
+                Items.Clear();
+                temp.Clear();
+                ItemsSource = temp;
+            } else
+            {
+                Items.Clear();
+            }
         }
 
         public void PopulateItems()
