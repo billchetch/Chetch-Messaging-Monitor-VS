@@ -215,7 +215,7 @@
             // 
             this.mhDirection.Tag = "Direction";
             this.mhDirection.Text = "Direction";
-            this.mhDirection.Width = 87;
+            this.mhDirection.Width = 82;
             // 
             // mhType
             // 
@@ -239,7 +239,7 @@
             // 
             this.mhSummary.Tag = "Summary";
             this.mhSummary.Text = "Summary";
-            this.mhSummary.Width = 230;
+            this.mhSummary.Width = 225;
             // 
             // gbMessageFilters
             // 
