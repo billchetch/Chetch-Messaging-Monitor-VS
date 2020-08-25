@@ -45,6 +45,7 @@
             this.mhSender = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.mhSummary = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbMessageFilters = new System.Windows.Forms.GroupBox();
+            this.btnClearMessages = new System.Windows.Forms.Button();
             this.cbMessageTypeOther = new System.Windows.Forms.CheckBox();
             this.cbMessageTypeError = new System.Windows.Forms.CheckBox();
             this.cbMessageTypeCommand = new System.Windows.Forms.CheckBox();
@@ -75,7 +76,6 @@
             this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.btnClearMessages = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
@@ -255,6 +255,16 @@
             this.gbMessageFilters.Size = new System.Drawing.Size(866, 42);
             this.gbMessageFilters.TabIndex = 1;
             this.gbMessageFilters.TabStop = false;
+            // 
+            // btnClearMessages
+            // 
+            this.btnClearMessages.Location = new System.Drawing.Point(785, 11);
+            this.btnClearMessages.Name = "btnClearMessages";
+            this.btnClearMessages.Size = new System.Drawing.Size(75, 23);
+            this.btnClearMessages.TabIndex = 6;
+            this.btnClearMessages.Text = "Clear";
+            this.btnClearMessages.UseVisualStyleBackColor = true;
+            this.btnClearMessages.Click += new System.EventHandler(this.btnClearMessages_Click);
             // 
             // cbMessageTypeOther
             // 
@@ -531,7 +541,7 @@
             // 
             this.schName.Tag = "Name";
             this.schName.Text = "Name";
-            this.schName.Width = 122;
+            this.schName.Width = 150;
             // 
             // schState
             // 
@@ -543,17 +553,7 @@
             // 
             this.schExtras.Tag = "Extras";
             this.schExtras.Text = "Extras";
-            this.schExtras.Width = 412;
-            // 
-            // btnClearMessages
-            // 
-            this.btnClearMessages.Location = new System.Drawing.Point(785, 11);
-            this.btnClearMessages.Name = "btnClearMessages";
-            this.btnClearMessages.Size = new System.Drawing.Size(75, 23);
-            this.btnClearMessages.TabIndex = 6;
-            this.btnClearMessages.Text = "Clear";
-            this.btnClearMessages.UseVisualStyleBackColor = true;
-            this.btnClearMessages.Click += new System.EventHandler(this.btnClearMessages_Click);
+            this.schExtras.Width = 400;
             // 
             // MainForm
             // 

@@ -45,7 +45,8 @@ namespace ChetchMessagingMonitor
         {
             if (!_clients.ContainsKey(_currentServer))
             {
-                var client = _clientMgr.Connect(_currentServer, "CM-Monitor", 10000);
+                String clientName = "CM-Monitor@" + TCPServer.LanIP;
+                var client = _clientMgr.Connect(_currentServer, clientName, 10000);
                 client.HandleError += HandleClientError;
                 client.HandleMessage += HandleClientMessage;
                 client.ModifyMessage += ModifyMessage;
