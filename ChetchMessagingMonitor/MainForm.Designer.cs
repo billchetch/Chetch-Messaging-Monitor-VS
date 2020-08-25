@@ -227,19 +227,19 @@
             // 
             this.mhTarget.Tag = "Target";
             this.mhTarget.Text = "Target";
-            this.mhTarget.Width = 99;
+            this.mhTarget.Width = 140;
             // 
             // mhSender
             // 
             this.mhSender.Tag = "Sender";
             this.mhSender.Text = "Sender";
-            this.mhSender.Width = 96;
+            this.mhSender.Width = 140;
             // 
             // mhSummary
             // 
             this.mhSummary.Tag = "Summary";
             this.mhSummary.Text = "Summary";
-            this.mhSummary.Width = 323;
+            this.mhSummary.Width = 240;
             // 
             // gbMessageFilters
             // 
