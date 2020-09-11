@@ -100,7 +100,7 @@ namespace ChetchMessagingMonitor
         
         public void HandleClientError(Connection cnn, Exception e)
         {
-           
+            System.Diagnostics.Trace.WriteLine(String.Format("!!!! Client {0} error {1}", cnn == null ? "n/a" : cnn.ToString(), e.Message));
         }
 
         private void ModifyMessage(Connection cnn, Chetch.Messaging.Message message)
@@ -135,13 +135,16 @@ namespace ChetchMessagingMonitor
                     {
                         //send status request to all connected clients
                         var clients = message.GetList<String>("Connections");
-                        foreach(var cs in clients)
+                        System.Diagnostics.Trace.WriteLine(String.Format("Server status response shows {0} client connections ...", clients.Count));
+                        foreach (var cs in clients)
                         {
                             var data = cs.Split(' ');
                             var clientName = data[1];
                             if (clientName != null && clientName != String.Empty)
                             {
                                 CurrentClient.RequestClientConnectionStatus(clientName);
+                                System.Diagnostics.Trace.WriteLine("Requesting status of " + clientName);
+                                //System.Threading.Thread.Sleep(100);
                             }
                         }
                     }

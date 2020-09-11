@@ -30,6 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabClients = new System.Windows.Forms.TabPage();
+            this.btnUnsubscribe = new System.Windows.Forms.Button();
+            this.btnSubscribe = new System.Windows.Forms.Button();
             this.tbMessageDetailsHeader = new System.Windows.Forms.TextBox();
             this.btnSendStatusRequest = new System.Windows.Forms.Button();
             this.btnSendPing = new System.Windows.Forms.Button();
@@ -76,16 +78,25 @@
             this.schName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schState = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.schExtras = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabTrace = new System.Windows.Forms.TabPage();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbSearchTrace = new System.Windows.Forms.TextBox();
+            this.listViewTraceOutput = new ChetchMessagingMonitor.ChetchListView();
+            this.trID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.trDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.trLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
             this.tabServer.SuspendLayout();
+            this.tabTrace.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabClients);
             this.tabControl1.Controls.Add(this.tabServer);
+            this.tabControl1.Controls.Add(this.tabTrace);
             this.tabControl1.Location = new System.Drawing.Point(13, 13);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -95,6 +106,8 @@
             // 
             // tabClients
             // 
+            this.tabClients.Controls.Add(this.btnUnsubscribe);
+            this.tabClients.Controls.Add(this.btnSubscribe);
             this.tabClients.Controls.Add(this.tbMessageDetailsHeader);
             this.tabClients.Controls.Add(this.btnSendStatusRequest);
             this.tabClients.Controls.Add(this.btnSendPing);
@@ -113,6 +126,26 @@
             this.tabClients.Text = "Clients";
             this.tabClients.UseVisualStyleBackColor = true;
             // 
+            // btnUnsubscribe
+            // 
+            this.btnUnsubscribe.Location = new System.Drawing.Point(283, 562);
+            this.btnUnsubscribe.Name = "btnUnsubscribe";
+            this.btnUnsubscribe.Size = new System.Drawing.Size(86, 23);
+            this.btnUnsubscribe.TabIndex = 11;
+            this.btnUnsubscribe.Text = "Unsubscribe";
+            this.btnUnsubscribe.UseVisualStyleBackColor = true;
+            this.btnUnsubscribe.Click += new System.EventHandler(this.btnUnsubscribe_Click);
+            // 
+            // btnSubscribe
+            // 
+            this.btnSubscribe.Location = new System.Drawing.Point(200, 562);
+            this.btnSubscribe.Name = "btnSubscribe";
+            this.btnSubscribe.Size = new System.Drawing.Size(78, 23);
+            this.btnSubscribe.TabIndex = 10;
+            this.btnSubscribe.Text = "Subscribe";
+            this.btnSubscribe.UseVisualStyleBackColor = true;
+            this.btnSubscribe.Click += new System.EventHandler(this.btnSubscribe_Click);
+            // 
             // tbMessageDetailsHeader
             // 
             this.tbMessageDetailsHeader.Location = new System.Drawing.Point(6, 423);
@@ -127,7 +160,7 @@
             // 
             this.btnSendStatusRequest.Location = new System.Drawing.Point(101, 562);
             this.btnSendStatusRequest.Name = "btnSendStatusRequest";
-            this.btnSendStatusRequest.Size = new System.Drawing.Size(91, 23);
+            this.btnSendStatusRequest.Size = new System.Drawing.Size(81, 23);
             this.btnSendStatusRequest.TabIndex = 8;
             this.btnSendStatusRequest.Text = "Status";
             this.btnSendStatusRequest.UseVisualStyleBackColor = true;
@@ -461,9 +494,9 @@
             // 
             // tbServerCommandLine
             // 
-            this.tbServerCommandLine.Location = new System.Drawing.Point(135, 274);
+            this.tbServerCommandLine.Location = new System.Drawing.Point(152, 274);
             this.tbServerCommandLine.Name = "tbServerCommandLine";
-            this.tbServerCommandLine.Size = new System.Drawing.Size(183, 20);
+            this.tbServerCommandLine.Size = new System.Drawing.Size(166, 20);
             this.tbServerCommandLine.TabIndex = 5;
             // 
             // cmbServerCommands
@@ -471,7 +504,7 @@
             this.cmbServerCommands.FormattingEnabled = true;
             this.cmbServerCommands.Location = new System.Drawing.Point(7, 274);
             this.cmbServerCommands.Name = "cmbServerCommands";
-            this.cmbServerCommands.Size = new System.Drawing.Size(121, 21);
+            this.cmbServerCommands.Size = new System.Drawing.Size(139, 21);
             this.cmbServerCommands.TabIndex = 4;
             // 
             // cbTraceServerOutput
@@ -555,6 +588,70 @@
             this.schExtras.Text = "Extras";
             this.schExtras.Width = 400;
             // 
+            // tabTrace
+            // 
+            this.tabTrace.Controls.Add(this.label1);
+            this.tabTrace.Controls.Add(this.tbSearchTrace);
+            this.tabTrace.Controls.Add(this.listViewTraceOutput);
+            this.tabTrace.Location = new System.Drawing.Point(4, 22);
+            this.tabTrace.Name = "tabTrace";
+            this.tabTrace.Padding = new System.Windows.Forms.Padding(3);
+            this.tabTrace.Size = new System.Drawing.Size(875, 592);
+            this.tabTrace.TabIndex = 2;
+            this.tabTrace.Text = "Trace";
+            this.tabTrace.UseVisualStyleBackColor = true;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 18);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(44, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Search:";
+            // 
+            // tbSearchTrace
+            // 
+            this.tbSearchTrace.Location = new System.Drawing.Point(57, 15);
+            this.tbSearchTrace.Name = "tbSearchTrace";
+            this.tbSearchTrace.Size = new System.Drawing.Size(145, 20);
+            this.tbSearchTrace.TabIndex = 1;
+            // 
+            // listViewTraceOutput
+            // 
+            this.listViewTraceOutput.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.trID,
+            this.trDate,
+            this.trLine});
+            this.listViewTraceOutput.DataSourceObjectIDName = "ID";
+            this.listViewTraceOutput.FullRowSelect = true;
+            this.listViewTraceOutput.ItemsSource = null;
+            this.listViewTraceOutput.Location = new System.Drawing.Point(7, 44);
+            this.listViewTraceOutput.Name = "listViewTraceOutput";
+            this.listViewTraceOutput.PrependItems = false;
+            this.listViewTraceOutput.Size = new System.Drawing.Size(862, 542);
+            this.listViewTraceOutput.TabIndex = 0;
+            this.listViewTraceOutput.UseCompatibleStateImageBehavior = false;
+            this.listViewTraceOutput.View = System.Windows.Forms.View.Details;
+            // 
+            // trID
+            // 
+            this.trID.Tag = "ID";
+            this.trID.Text = "ID";
+            this.trID.Width = 68;
+            // 
+            // trDate
+            // 
+            this.trDate.Tag = "Date";
+            this.trDate.Text = "Date";
+            this.trDate.Width = 93;
+            // 
+            // trLine
+            // 
+            this.trLine.Tag = "Line";
+            this.trLine.Text = "Trace Output";
+            this.trLine.Width = 667;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -571,6 +668,8 @@
             this.gbMessageFilters.PerformLayout();
             this.tabServer.ResumeLayout(false);
             this.tabServer.PerformLayout();
+            this.tabTrace.ResumeLayout(false);
+            this.tabTrace.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -625,6 +724,15 @@
         private System.Windows.Forms.Button btnConnect2Server;
         private System.Windows.Forms.ComboBox cmbServerConnection;
         private System.Windows.Forms.Button btnClearMessages;
+        private System.Windows.Forms.Button btnSubscribe;
+        private System.Windows.Forms.Button btnUnsubscribe;
+        private System.Windows.Forms.TabPage tabTrace;
+        private ChetchListView listViewTraceOutput;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbSearchTrace;
+        private System.Windows.Forms.ColumnHeader trID;
+        private System.Windows.Forms.ColumnHeader trDate;
+        private System.Windows.Forms.ColumnHeader trLine;
     }
 }
 

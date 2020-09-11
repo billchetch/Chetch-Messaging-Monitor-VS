@@ -44,6 +44,10 @@ namespace ChetchMessagingMonitor
                 {
                     ((ListView)control).SelectedIndexChanged += FilterValueChanged;
                 }
+                else if (control is TextBox)
+                {
+                    ((TextBox)control).KeyUp += FilterValueChanged;
+                }
             }
 
             public void AddControl(Control control, String values)
@@ -76,6 +80,8 @@ namespace ChetchMessagingMonitor
 
             public bool Matches(DataSourceObject data)
             {
+                if (data == null) throw new Exception("Cannot match on null data");
+
                 String[] propertyNames = PropertyName.Split('|');
                 foreach (var pName in propertyNames)
                 {
@@ -89,8 +95,12 @@ namespace ChetchMessagingMonitor
                             var s1 = ((TextBox)c).Text;
                             if (s1 == null || s1 == String.Empty) return true;
 
-                            var s2 = data.Get<String>(pName);
-                            if (s1.Equals(s2)) return true;
+                            s1 = s1.ToLower();
+                            var s2 = data.Get<String>(pName).ToLower();
+                            if (s2.IndexOf(s1) >= 0)
+                            {
+                                return true;
+                            }
                         }
                         else if (c is CheckBox)
                         {
@@ -163,6 +173,8 @@ namespace ChetchMessagingMonitor
 
         public bool PrependItems { get; set; } = false;
         public String DataSourceObjectIDName { get; set; } = "ID";
+
+        public bool Trace = true;
         
         private List<DataSourceObject> _filteredSource = new List<DataSourceObject>();
         protected List<DataSourceObject> FilteredSource
@@ -183,25 +195,28 @@ namespace ChetchMessagingMonitor
 
         virtual protected void HandleItemsSourceChanged(object sender, ListChangedEventArgs e)
         {
-            System.Diagnostics.Debug.Print("CLV list changed");
             DataSourceObject data;
 
             switch (e.ListChangedType)
             {
                 case ListChangedType.ItemAdded:
                     data = (DataSourceObject)_itemsSource[e.NewIndex];
-                    System.Diagnostics.Debug.Print("New data added to list so adding item");
+                    if (Trace) System.Diagnostics.Trace.WriteLine(String.Format("{0}: New data added to source (count = {1}) so adding item to list view (count = {2})", Name, _itemsSource.Count, Items.Count));
                     InvokeAction<DataSourceObject>(AddItem, data);
                     break;
 
                 case ListChangedType.ItemDeleted:
+                    data = (DataSourceObject)_itemsSource[e.NewIndex];
+                    InvokeAction<DataSourceObject>(DeleteItem, data);
+                    break;
+
                 case ListChangedType.ItemMoved:
                     break;
 
                 case ListChangedType.ItemChanged:
                     data = (DataSourceObject)_itemsSource[e.NewIndex];
                     InvokeAction<DataSourceObject>(UpdateItem, data);
-                    System.Diagnostics.Debug.Print("Existing data added to list so updating item");
+                    if(Trace)System.Diagnostics.Trace.WriteLine(String.Format("{0}: Existing data updated in source (count = {1}) so updating item to list view (count = {2})", Name, _itemsSource.Count, Items.Count));
                     break;
             }
         }
@@ -275,7 +290,7 @@ namespace ChetchMessagingMonitor
             }
         }
 
-        virtual protected ListViewItem CreateItem(DataSourceObject data, String idName = "ID")
+        virtual protected ListViewItem CreateItem(DataSourceObject data)
         {
             List<String> subItems = new List<String>();
             foreach(ColumnHeader col in Columns)
@@ -320,7 +335,14 @@ namespace ChetchMessagingMonitor
             foreach (var d in FilteredSource)
             {
                 ListViewItem li = CreateItem(d);
-                Items.Add(li);
+                if (PrependItems)
+                {
+                    Items.Insert(0, li);
+                }
+                else
+                {
+                    Items.Add(li);
+                }
             }
         }
 
@@ -347,5 +369,16 @@ namespace ChetchMessagingMonitor
                 Items[idx] = CreateItem(data);
             }
         }
-    }
+
+        public void DeleteItem(DataSourceObject data)
+        {
+            if (!IncludeInView(data)) return;
+
+            int idx = Items.IndexOfKey(GetID(data));
+            if (idx >= 0)
+            {
+                Items.RemoveAt(idx);    
+            }
+        }
+    } //end class
 }

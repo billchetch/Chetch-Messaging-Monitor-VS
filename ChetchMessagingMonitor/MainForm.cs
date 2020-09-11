@@ -8,21 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chetch.Messaging;
+using System.Diagnostics;
 
 namespace ChetchMessagingMonitor
 {
+    
+
     public partial class MainForm : Form
     {
         CMApplicationContext appCtx;
         Chetch.Messaging.Message MessageSent = null;
         Chetch.Messaging.Message ServerCommandSent = null;
+        Trace2Form _traceListener = null;
 
         public MainForm(CMApplicationContext ctx)
         {
             InitializeComponent();
 
             appCtx = ctx;
-            
+
+            _traceListener = new Trace2Form();
+            Trace.Listeners.Add(_traceListener);
+            listViewTraceOutput.Trace = false;
+            listViewTraceOutput.ItemsSource = _traceListener.Lines;
+            listViewTraceOutput.PrependItems = true;
+            listViewTraceOutput.AddFilter("Line", tbSearchTrace);
+
             //CLIENTS TAB
             //clients list view
             listViewClients.ItemsSource = appCtx.CurrentDataSource.Clients;
@@ -72,6 +83,8 @@ namespace ChetchMessagingMonitor
             //FORM catch data changes
             appCtx.CurrentDataSource.Messages.ListChanged += HandleMessage;
             appCtx.CurrentDataSource.PropertyChanged += HandlePropertyChanged;
+
+            Trace.WriteLine("MainForm created");
         }
 
 
@@ -138,8 +151,10 @@ namespace ChetchMessagingMonitor
             PopulateTextBox(tbMessageDetails, md.Message.ToStringValues(true));
         }
 
-        private void PopulateTextBox(TextBox tb, String text, bool append = false)
+        public void PopulateTextBox(TextBox tb, String text, bool append = false)
         {
+            if(tb.IsDisposed)return;
+
             if (tb.InvokeRequired)
             {
                 tb.Invoke((MethodInvoker)delegate ()
@@ -156,7 +171,14 @@ namespace ChetchMessagingMonitor
             }
             else
             {
-                tb.Text = text;
+                if (append)
+                {
+                    tb.AppendText(text);
+                }
+                else
+                {
+                    tb.Text = text;
+                }
             }
         }
         
@@ -222,6 +244,17 @@ namespace ChetchMessagingMonitor
                         }
                         break;
 
+                    case "SUBSCRIBE":
+                        if (target == null)
+                        {
+                            throw new Exception("Please select client to subscribe to");
+                        }
+                        else
+                        {
+                            MessageSent = client.Subscribe(target);
+                        }
+                        break;
+
                     case "COMMAND":
                         if (target != null)
                         {
@@ -230,7 +263,7 @@ namespace ChetchMessagingMonitor
                             MessageSent = client.SendCommand(target, cmd, cmdArgs);
                         } else
                         {
-                            throw new Exception("Not yet can send commands to server");
+                            throw new Exception("Use server tab to send commands to server");
                         }
                         break;
 
@@ -248,12 +281,12 @@ namespace ChetchMessagingMonitor
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            listViewClients.PopulateItems();
+            SendMessage("STATUS REQUEST");
+            listViewClients.ClearItems(true);
             listViewMessages.PopulateItems();
             listViewServerConnections.PopulateItems();
 
             PopulateTextBox(tbServerDetails, appCtx.CurrentDataSource.ServerDetails);
-            appCtx.CurrentClient.RequestServerStatus();
         }
 
         
@@ -334,7 +367,8 @@ namespace ChetchMessagingMonitor
             switch (e.TabPage.Name)
             {
                 case "tabClients":
-                    listViewClients.PopulateItems();
+                    SendMessage("STATUS REQUEST");
+                    listViewClients.ClearItems(true);
                     listViewMessages.PopulateItems();
                     break;
 
@@ -391,6 +425,16 @@ namespace ChetchMessagingMonitor
         private void btnClearMessages_Click(object sender, EventArgs e)
         {
             listViewMessages.ClearItems(true);
+        }
+
+        private void btnSubscribe_Click(object sender, EventArgs e)
+        {
+            SendMessage("SUBSCRIBE");
+        }
+
+        private void btnUnsubscribe_Click(object sender, EventArgs e)
+        {
+            SendMessage("UNSUBSCRIBE");
         }
     }
 }

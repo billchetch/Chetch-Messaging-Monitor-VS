@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 using System.ComponentModel;
 using Chetch.Messaging;
 
@@ -128,7 +129,7 @@ namespace ChetchMessagingMonitor
         public CMDataSource(String serverConnectionString)
         {
             ServerConnectionString = serverConnectionString;
-            System.Diagnostics.Debug.Print("CMDataSource constructor called for " + ServerConnectionString);
+            System.Diagnostics.Trace.WriteLine("CMDataSource constructor called for {0}", ServerConnectionString);
         }
 
         public void AddClientData(Message message)
@@ -138,19 +139,21 @@ namespace ChetchMessagingMonitor
             {
                 if(c.ID == cd.ID)
                 {
+                    System.Diagnostics.Trace.WriteLine(String.Format("Updating client {0} (ID: {1})", c.Name, c.ID));
                     c.ParseMessage(message);
                     return;
                 }
             }
 
-            System.Diagnostics.Debug.Print("Adding client " + cd.Name);
+            System.Diagnostics.Trace.WriteLine(String.Format("Adding client {0} (ID: {1})", cd.Name, cd.ID));
             Clients.Add(cd);
         }
 
         public void AddMessageData(MessageDirection direction, Message message)
         {
             var md = new MessageData(direction, message);
-            System.Diagnostics.Debug.Print("Adding " + direction + " message " + message.ID + " " + message.Type);
+            System.Diagnostics.Trace.WriteLine("Adding " + direction + " message " + message.ID + " " + message.Type);
+
             Messages.Insert(0, md);
             if(Messages.Count > MESSAGE_LOG_MAX)
             {
@@ -193,7 +196,7 @@ namespace ChetchMessagingMonitor
                         }
                         foreach(ClientData cd in clientsToRemove)
                         {
-                            System.Diagnostics.Debug.Print("Removing client " + cd.Name);
+                            System.Diagnostics.Trace.WriteLine("Removing client " + cd.Name);
                             Clients.Remove(cd);
                         }
 
