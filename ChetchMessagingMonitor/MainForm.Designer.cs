@@ -85,6 +85,7 @@
             this.trID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.trDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.trLine = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tbRepeatDelay = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabClients.SuspendLayout();
             this.gbMessageFilters.SuspendLayout();
@@ -106,6 +107,7 @@
             // 
             // tabClients
             // 
+            this.tabClients.Controls.Add(this.tbRepeatDelay);
             this.tabClients.Controls.Add(this.btnUnsubscribe);
             this.tabClients.Controls.Add(this.btnSubscribe);
             this.tabClients.Controls.Add(this.tbMessageDetailsHeader);
@@ -178,9 +180,9 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(283, 534);
+            this.btnSend.Location = new System.Drawing.Point(282, 534);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(86, 23);
+            this.btnSend.Size = new System.Drawing.Size(55, 22);
             this.btnSend.TabIndex = 6;
             this.btnSend.Text = "Send";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -652,6 +654,15 @@
             this.trLine.Text = "Trace Output";
             this.trLine.Width = 667;
             // 
+            // tbRepeatDelay
+            // 
+            this.tbRepeatDelay.Location = new System.Drawing.Point(340, 535);
+            this.tbRepeatDelay.Name = "tbRepeatDelay";
+            this.tbRepeatDelay.Size = new System.Drawing.Size(28, 20);
+            this.tbRepeatDelay.TabIndex = 12;
+            this.tbRepeatDelay.Text = "1:0";
+            this.tbRepeatDelay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -733,6 +744,7 @@
         private System.Windows.Forms.ColumnHeader trID;
         private System.Windows.Forms.ColumnHeader trDate;
         private System.Windows.Forms.ColumnHeader trLine;
+        private System.Windows.Forms.TextBox tbRepeatDelay;
     }
 }
 

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Chetch.Messaging;
 using System.Diagnostics;
+using Chetch.Application;
 
 namespace ChetchMessagingMonitor
 {
@@ -260,7 +261,17 @@ namespace ChetchMessagingMonitor
                         {
                             var cmd = clArgs[0];
                             var cmdArgs = clArgs.Count > 1 ? clArgs.GetRange(1, clArgs.Count - 1).ToList<Object>() : null;
-                            MessageSent = client.SendCommand(target, cmd, cmdArgs);
+                            int repeat = 1;
+                            int delay = 0;
+                            String rd = tbRepeatDelay.Text;
+                            if(rd != null && rd != String.Empty)
+                            {
+                                String[] ar = rd.Split(':');
+                                repeat = ar.Length > 0 ? System.Convert.ToInt32(ar[0]) : 1;
+                                delay = ar.Length > 1 ? System.Convert.ToInt32(ar[1]) : 0;
+                            }
+                            ThreadExecutionManager.Execute<List<Object>>("ccmdCMM", repeat, delay, SendClientCommand, target, cmd, cmdArgs);
+                            
                         } else
                         {
                             throw new Exception("Use server tab to send commands to server");
@@ -271,12 +282,28 @@ namespace ChetchMessagingMonitor
                         throw new Exception("Send type " + sendType + " not recognised");
                 }
 
-                tbMessageDetails.Text = "Sending:" + Environment.NewLine + MessageSent.ToStringValues(true);
-                tbMessageDetailsHeader.Text = "Sending:" + Environment.NewLine + MessageSent.ToStringHeader();
+                UpdateMessageSentDetails();
             } catch (Exception e)
             {
                 HandleException(e);
             }
+        }
+
+        private void UpdateMessageSentDetails()
+        {
+            if (MessageSent != null)
+            {
+                PopulateTextBox(tbMessageDetails, "Sending:" + Environment.NewLine + MessageSent.ToStringValues(true));
+                PopulateTextBox(tbMessageDetailsHeader, "Sending:" + Environment.NewLine + MessageSent.ToStringHeader());
+            }
+        }
+
+        private void SendClientCommand(String target, String command, List<Object> commandArgs)
+        {
+            ClientConnection client = appCtx.CurrentClient;
+            System.Diagnostics.Trace.WriteLine("Sending " + command + " to " + target);
+            MessageSent = client.SendCommand(target, command, commandArgs);
+            UpdateMessageSentDetails();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
