@@ -91,7 +91,9 @@ namespace ChetchMessagingMonitor
 
         private void HandleException(Exception e)
         {
-            MessageBox.Show(e.Message);
+            MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            System.Diagnostics.Trace.WriteLine(e.Message);
+            System.Diagnostics.Trace.WriteLine(e.StackTrace);
         }
 
         private void HandlePropertyChanged(Object sender, PropertyChangedEventArgs e)
@@ -445,7 +447,7 @@ namespace ChetchMessagingMonitor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                HandleException(ex);
             }
         }
 

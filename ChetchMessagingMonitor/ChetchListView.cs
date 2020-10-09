@@ -206,8 +206,8 @@ namespace ChetchMessagingMonitor
                     break;
 
                 case ListChangedType.ItemDeleted:
-                    data = (DataSourceObject)_itemsSource[e.NewIndex];
-                    InvokeAction<DataSourceObject>(DeleteItem, data);
+                    if (Trace) System.Diagnostics.Trace.WriteLine(String.Format("{0}: Existing data deleted in source (count = {1}) so deleting item to list view (count = {2})", Name, _itemsSource.Count, Items.Count));
+                    InvokeAction(SynchroniseItems);
                     break;
 
                 case ListChangedType.ItemMoved:
@@ -342,6 +342,26 @@ namespace ChetchMessagingMonitor
                 else
                 {
                     Items.Add(li);
+                }
+            }
+        }
+
+        public void SynchroniseItems()
+        {
+            foreach (ListViewItem lvi in Items)
+            {
+                bool itemIsInSource = false;
+                foreach (var d in FilteredSource)
+                {
+                    if(lvi.Name == GetID(d))
+                    {
+                        itemIsInSource = true;
+                        break;
+                    }
+                }
+                if (!itemIsInSource)
+                {
+                    Items.Remove(lvi);
                 }
             }
         }

@@ -39,7 +39,7 @@ namespace ChetchMessagingMonitor
         }
 
 
-        const int MESSAGE_LOG_MAX = 256;
+        const int MESSAGE_LOG_MAX = 24;
 
         public enum MessageDirection
         {
