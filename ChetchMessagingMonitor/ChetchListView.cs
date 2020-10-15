@@ -207,7 +207,7 @@ namespace ChetchMessagingMonitor
 
                 case ListChangedType.ItemDeleted:
                     if (Trace) System.Diagnostics.Trace.WriteLine(String.Format("{0}: Existing data deleted in source (count = {1}) so deleting item to list view (count = {2})", Name, _itemsSource.Count, Items.Count));
-                    InvokeAction(SynchroniseItems);
+                    //InvokeAction(SynchroniseItems);
                     break;
 
                 case ListChangedType.ItemMoved:
