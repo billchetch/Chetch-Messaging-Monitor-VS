@@ -258,6 +258,17 @@ namespace ChetchMessagingMonitor
                         }
                         break;
 
+                    case "UNSUBSCRIBE":
+                        if (target == null)
+                        {
+                            throw new Exception("Please select client to unsubscribe from");
+                        }
+                        else
+                        {
+                            MessageSent = client.Unsubscribe(target);
+                        }
+                        break;
+
                     case "COMMAND":
                         if (target != null)
                         {
