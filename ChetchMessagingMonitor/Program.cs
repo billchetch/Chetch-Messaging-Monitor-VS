@@ -14,16 +14,21 @@ namespace ChetchMessagingMonitor
         [STAThread]
         static void Main()
         {
+            bool asSysTray = false;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            CMApplicationContext context = new CMApplicationContext();
+            CMApplicationContext context = new CMApplicationContext(asSysTray);
 
             //SysTray (comment out below and uncomment this section to run as a syst tray app)
-            //Application.Run(context);
-
-            //Normal winform (comment out above and uncomment this section to run as a normal form app)
-            context.Init();
-            Application.Run(new MainForm(context));
+            if (asSysTray)
+            {
+                Application.Run(context);
+            }
+            else
+            {
+                context.Init();
+                Application.Run(new MainForm(context));
+            }
 
             //end of both
             context.CloseClients();

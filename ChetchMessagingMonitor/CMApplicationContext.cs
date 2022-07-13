@@ -36,7 +36,7 @@ namespace ChetchMessagingMonitor
             }
         }
 
-        public CMApplicationContext()
+        public CMApplicationContext(bool asSysTray = true) : base(asSysTray)
         {
             
         }
@@ -161,14 +161,17 @@ namespace ChetchMessagingMonitor
             return new MainForm(this);
         }
 
-        override protected void InitializeContext()
+        override protected void InitializeContext(bool asSysTray)
         {
             Init();
 
-            base.InitializeContext();
+            base.InitializeContext(asSysTray);
 
-            NotifyIcon.Text = "Chetch Messaging Monitor";
-            NotifyIcon.Icon = Properties.Resources.icon_white;
+            if (asSysTray)
+            {
+                NotifyIcon.Text = "Chetch Messaging Monitor";
+                NotifyIcon.Icon = Properties.Resources.icon_white;
+            }
         }
     }
 }

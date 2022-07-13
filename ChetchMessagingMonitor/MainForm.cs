@@ -200,7 +200,7 @@ namespace ChetchMessagingMonitor
 
         private void SendMessage(String sendType = null)
         {
-            System.Diagnostics.Debug.Print("Send message");
+            //System.Diagnostics.Debug.Print("Send message");
 
             try
             {

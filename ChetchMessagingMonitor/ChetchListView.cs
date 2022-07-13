@@ -174,7 +174,7 @@ namespace ChetchMessagingMonitor
         public bool PrependItems { get; set; } = false;
         public String DataSourceObjectIDName { get; set; } = "ID";
 
-        public bool Trace = true;
+        public bool Trace = false;
         
         private List<DataSourceObject> _filteredSource = new List<DataSourceObject>();
         protected List<DataSourceObject> FilteredSource

@@ -152,7 +152,7 @@ namespace ChetchMessagingMonitor
         public void AddMessageData(MessageDirection direction, Message message)
         {
             var md = new MessageData(direction, message);
-            System.Diagnostics.Trace.WriteLine("Adding " + direction + " message " + message.ID + " " + message.Type);
+            //System.Diagnostics.Trace.WriteLine("Adding " + direction + " message " + message.ID + " " + message.Type);
 
             Messages.Insert(0, md);
             if(Messages.Count > MESSAGE_LOG_MAX)
